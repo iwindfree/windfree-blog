@@ -1,0 +1,75 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPath } from "@/utils/getPath";
+
+type Props = {
+  currentPost: CollectionEntry<"blog">;
+  allPosts: CollectionEntry<"blog">[];
+};
+
+const { currentPost, allPosts } = Astro.props;
+
+const series = currentPost.data.series;
+if (!series) return;
+
+const seriesPosts = allPosts
+  .filter(p => p.data.series === series)
+  .sort((a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0));
+
+const currentIndex = seriesPosts.findIndex(p => p.id === currentPost.id);
+const prevPost = currentIndex > 0 ? seriesPosts[currentIndex - 1] : null;
+const nextPost =
+  currentIndex < seriesPosts.length - 1 ? seriesPosts[currentIndex + 1] : null;
+---
+
+{
+  seriesPosts.length > 1 && (
+    <div class="my-8 rounded-lg border border-border bg-muted/30 p-4">
+      <h3 class="mb-3 text-lg font-semibold">
+        {series} ({currentIndex + 1}/{seriesPosts.length})
+      </h3>
+      <ol class="mb-4 space-y-1 list-decimal list-inside text-sm">
+        {seriesPosts.map((post, i) => (
+          <li
+            class:list={[
+              i === currentIndex ? "font-bold text-accent" : "opacity-75",
+            ]}
+          >
+            {i === currentIndex ? (
+              <span>{post.data.title}</span>
+            ) : (
+              <a
+                href={getPath(post.id, post.filePath)}
+                class="hover:text-accent hover:underline"
+              >
+                {post.data.title}
+              </a>
+            )}
+          </li>
+        ))}
+      </ol>
+      <div class="flex justify-between gap-4">
+        {prevPost ? (
+          <a
+            href={getPath(prevPost.id, prevPost.filePath)}
+            class="text-sm hover:text-accent"
+          >
+            &larr; 이전: {prevPost.data.title}
+          </a>
+        ) : (
+          <span />
+        )}
+        {nextPost ? (
+          <a
+            href={getPath(nextPost.id, nextPost.filePath)}
+            class="text-sm text-end hover:text-accent"
+          >
+            다음: {nextPost.data.title} &rarr;
+          </a>
+        ) : (
+          <span />
+        )}
+      </div>
+    </div>
+  )
+}

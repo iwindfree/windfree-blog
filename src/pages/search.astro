@@ -24,15 +24,16 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
 
     if (!pageFindSearch) return;
 
+    // transition:persist로 이미 초기화된 경우 skip
+    if (pageFindSearch.querySelector("form")) return;
+
     const params = new URLSearchParams(window.location.search);
 
-    const onIdle = window.requestIdleCallback || (cb => setTimeout(cb, 1));
-
-    onIdle(async () => {
+    (async () => {
       // @ts-expect-error — Missing types for @pagefind/default-ui package.
       const { PagefindUI } = await import("@pagefind/default-ui");
 
-      // Display warning inn dev mode
+      // Display warning in dev mode
       if (import.meta.env.DEV) {
         pageFindSearch.innerHTML = `
             <div class="bg-muted/75 rounded p-4 space-y-4 mb-4">
@@ -48,8 +49,8 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
         showImages: false,
         showSubResults: true,
         processTerm: function (term: string) {
-          params.set("q", term); // Update the `q` parameter in the URL
-          history.replaceState(history.state, "", "?" + params.toString()); // Push the new URL without reloading
+          params.set("q", term);
+          history.replaceState(history.state, "", "?" + params.toString());
 
           const backUrl = pageFindSearch?.dataset?.backurl;
           sessionStorage.setItem("backUrl", backUrl + "?" + params.toString());
@@ -75,18 +76,10 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
           history.replaceState(history.state, "", window.location.pathname);
         }
       }
-    });
+    })();
   }
 
-  document.addEventListener("astro:after-swap", () => {
-    const pagefindSearch = document.querySelector("#pagefind-search");
-
-    // if pagefind search form already exists, don't initialize search component
-    if (pagefindSearch && pagefindSearch.querySelector("form")) return;
-
-    initSearch();
-  });
-  initSearch();
+  document.addEventListener("astro:page-load", initSearch);
 </script>
 
 <style is:global>

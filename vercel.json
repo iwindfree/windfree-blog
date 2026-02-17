@@ -1,7 +1,5 @@
 {
-  "buildCommand": "pnpm build",
-  "outputDirectory": "dist",
-  "framework": "astro",
+  "framework": "nextjs",
   "redirects": [
     {
       "source": "/posts/:path*",

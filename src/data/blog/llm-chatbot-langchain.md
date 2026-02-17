@@ -3,7 +3,9 @@ title: "RAG 기반 고객 상담 챗봇 만들기"
 author: iwindfree
 pubDatetime: 2025-02-13T09:00:00Z
 slug: "llm-chatbot-langchain"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 18
 tags: ["ai", "llm", "rag", "chatbot"]
 description: "이 노트북에서는 LangChain과 ChromaDB를 사용하여 RAGRetrieval-Augmented Generation 기반의 고객 상담 챗봇을 구축하는 방법을 배웁니다."
 ---

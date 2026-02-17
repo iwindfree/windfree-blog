@@ -3,7 +3,9 @@ title: "LLM API 고급 (Part 3/3)"
 author: iwindfree
 pubDatetime: 2025-01-15T09:00:00Z
 slug: "llm-api-advanced"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 6
 tags: ["ai", "llm", "api"]
 description: "이 노트북은 LLM API 시리즈의 마지막 파트로, 프로덕션 수준의 고급 기법들을 다룹니다."
 ---

@@ -3,7 +3,9 @@ title: "RAG 시스템 평가 (RAG Evaluation)"
 author: iwindfree
 pubDatetime: 2025-02-17T09:00:00Z
 slug: "llm-rag-evaluation"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 19
 tags: ["ai", "llm", "rag", "evaluation"]
 description: "이 노트북에서는 RAG 시스템의 검색 품질과 답변 품질을 정량적으로 측정하는 방법을 학습합니다."
 ---

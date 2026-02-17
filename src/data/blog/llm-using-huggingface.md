@@ -3,7 +3,9 @@ title: "Hugging Face 완전 정복: AI 모델의 GitHub"
 author: iwindfree
 pubDatetime: 2025-01-28T09:00:00Z
 slug: "llm-using-huggingface"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 11
 tags: ["ai", "llm", "huggingface"]
 description: "Hugging Face는 AI/ML 커뮤니티에서 가장 인기 있는 플랫폼으로, 수십만 개의 사전 학습된 모델과 데이터셋을 제공합니다. \"AI 모델의 GitHub\"라고 불리며, 누구나 모델을 공유하고 사용할 수 있습니다."
 ---

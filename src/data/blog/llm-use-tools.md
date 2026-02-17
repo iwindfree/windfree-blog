@@ -3,7 +3,9 @@ title: "Tool Use (Function Calling)"
 author: iwindfree
 pubDatetime: 2025-02-03T09:00:00Z
 slug: "llm-use-tools"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 13
 tags: ["ai", "llm", "tool-use"]
 description: "LLM에게 도구Tool 를 제공하면, AI가 외부 함수를 호출하여 실시간 정보를 가져오거나 작업을 수행할 수 있습니다."
 ---

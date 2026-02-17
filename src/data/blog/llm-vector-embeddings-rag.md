@@ -3,7 +3,9 @@ title: "Vector Embeddings와 RAG 기초"
 author: iwindfree
 pubDatetime: 2025-02-10T09:00:00Z
 slug: "llm-vector-embeddings-rag"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 15
 tags: ["ai", "llm", "rag", "embeddings"]
 description: "이번 노트북에서는 현대 AI 시스템의 핵심 기술인 벡터 임베딩Vector Embeddings 과 RAGRetrieval-Augmented Generation 에 대해 알아봅니다."
 ---

@@ -3,7 +3,9 @@ title: "LLM API 중급 (Part 2/3)"
 author: iwindfree
 pubDatetime: 2025-01-14T09:00:00Z
 slug: "llm-api-intermediate"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 5
 tags: ["ai", "llm", "api"]
 description: "이 노트북은 LLM API 시리즈의 두 번째 파트로, 실무에서 필요한 다양한 기법들을 다룹니다."
 ---

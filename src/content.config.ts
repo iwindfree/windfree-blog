@@ -25,8 +25,11 @@ const blog = defineCollection({
           "MAUI 기본",
           "MAUI 활용",
           "IT 잡썰",
-          "AI Engineering",
+          "LLM Engineering",
+          "AI Agent Engineering",
           "RUST",
+          "JAVA BCI",
+          "프로그래밍 노트",
         ])
         .optional(),
       series: z.string().optional(),

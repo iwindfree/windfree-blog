@@ -3,7 +3,9 @@ title: "System Message 활용하기"
 author: iwindfree
 pubDatetime: 2025-01-20T09:00:00Z
 slug: "llm-system-message"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 7
 tags: ["ai", "llm", "prompting"]
 description: "System message를 활용하면 챗봇에 특정 역할, 컨텍스트, 행동 지침을 부여할 수 있습니다. 이번 노트북에서는 System message를 효과적으로 활용하는 방법을 알아봅니다."
 ---

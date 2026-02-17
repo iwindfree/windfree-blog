@@ -3,7 +3,9 @@ title: "Multi-Modal AI 기초"
 author: iwindfree
 pubDatetime: 2025-01-22T09:00:00Z
 slug: "llm-multimodal-basic"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 9
 tags: ["ai", "llm", "multimodal"]
 description: "Multi-Modal AI는 텍스트, 이미지, 음성 등 여러 형태의 데이터를 처리할 수 있는 AI입니다."
 ---

@@ -3,7 +3,9 @@ title: "LLM Tokenizer 추가 학습"
 author: iwindfree
 pubDatetime: 2025-01-07T09:00:00Z
 slug: "llm-tokenizer-advanced"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 2
 tags: ["ai", "llm", "tokenization"]
 description: "from huggingface_hub import login"
 ---

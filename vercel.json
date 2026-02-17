@@ -1,5 +1,12 @@
 {
   "buildCommand": "pnpm build",
   "outputDirectory": "dist",
-  "framework": "astro"
+  "framework": "astro",
+  "redirects": [
+    {
+      "source": "/posts/:path*",
+      "destination": "/blog/:path*",
+      "statusCode": 301
+    }
+  ]
 }

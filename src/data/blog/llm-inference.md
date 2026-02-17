@@ -3,7 +3,9 @@ title: "LLM Inference 이해하기: 토큰 예측의 마법"
 author: iwindfree
 pubDatetime: 2025-01-08T09:00:00Z
 slug: "llm-inference"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 3
 tags: ["ai", "llm", "inference"]
 description: "이 노트북에서는 대규모 언어 모델LLM의 Inference추론 과정을 실습을 통해 이해합니다. LLM이 어떻게 텍스트를 생성하는지, 그 내부 메커니즘을 시각화하여 살펴봅니다."
 ---

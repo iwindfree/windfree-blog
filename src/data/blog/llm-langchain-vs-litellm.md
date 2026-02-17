@@ -3,7 +3,9 @@ title: "LangChain vs LiteLLM 비교 가이드"
 author: iwindfree
 pubDatetime: 2025-02-11T09:00:00Z
 slug: "llm-langchain-vs-litellm"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 16
 tags: ["ai", "llm", "rag", "langchain"]
 description: "> 원문: LangChain vs LiteLLM by Hey Amithttps://medium.com/@heyamit10/langchain-vs-litellm-a9b784a2ad1a"
 ---

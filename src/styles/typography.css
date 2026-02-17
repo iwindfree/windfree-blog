@@ -75,7 +75,7 @@
     }
 
     blockquote {
-      @apply border-s-accent/80 wrap-break-word opacity-80;
+      @apply border-s-accent-gold/60 wrap-break-word opacity-80;
     }
 
     details {

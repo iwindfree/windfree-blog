@@ -3,7 +3,9 @@ title: "LLM 벤치마크 완전 가이드: 모델 성능 평가의 모든 것"
 author: iwindfree
 pubDatetime: 2025-02-04T09:00:00Z
 slug: "llm-benchmarks-guide"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 14
 tags: ["ai", "llm", "benchmarks"]
 description: "대규모 언어 모델LLM이 빠르게 발전하면서, 모델의 성능을 객관적으로 평가할 수 있는 벤치마크의 중요성이 커지고 있습니다."
 ---

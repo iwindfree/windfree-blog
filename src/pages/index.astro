@@ -3,105 +3,107 @@ import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Socials from "@/components/Socials.astro";
-import LinkButton from "@/components/LinkButton.astro";
-import Card from "@/components/Card.astro";
+import CardHome from "@/components/CardHome.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
 
 const posts = await getCollection("blog");
-
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const recentPosts = sortedPosts.slice(0, 5);
+const featuredPost = recentPosts[0];
+const listPosts = recentPosts.slice(1);
 ---
 
 <Layout>
   <Header />
-  <main id="main-content" data-layout="index" class="app-layout">
-    <section id="hero" class:list={["pt-8 pb-6", "border-b border-border"]}>
-      <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-        I am windfree
-      </h1>
-      <a
-        target="_blank"
-        href="/rss.xml"
-        class="inline-block"
-        aria-label="rss feed"
-        title="RSS Feed"
-      >
-        <IconRss
-          width={20}
-          height={20}
-          class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
-        />
-        <span class="sr-only">RSS Feed</span>
-      </a>
-
-      <p class="text-lg">
-        computer programmer
-      </p>
-      <p class="mt-2">
-        함께하는 프로그래밍과 IT 이야기. MAUI/.NET, AI Engineering, 그리고 개발 경험을 기록합니다.
-      </p>
-      {
-        // only display if at least one social link is enabled
-        SOCIALS.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
-            <Socials />
-          </div>
-        )
-      }
+  <main id="main-content">
+    {/* Hero Section */}
+    <section class="relative h-[75vh] min-h-[480px] max-h-[720px] overflow-hidden">
+      <div
+        class="ken-burns absolute inset-0 bg-cover bg-center"
+        style="background-image: url('/images/hero/windfree-hero.jpg');"
+      ></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-[#0D1B2A]/60 via-transparent to-transparent"
+      ></div>
+      <div class="app-layout relative flex h-full flex-col items-start justify-end pb-16">
+        <span class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-accent-gold">
+          Notes for a Some day
+        </span>
+        <h1 class="mb-2 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          WINDFREE'S BLOG
+        </h1>
+        <p class="mb-1 text-xl font-medium text-white/90">
+          computer programmer
+        </p>
+        <p class="mb-8 max-w-xl text-base text-white/70">
+          함께하는 프로그래밍과 IT 이야기
+        </p>
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-2 rounded-lg bg-accent-gold px-6 py-3 font-semibold text-white transition-all hover:brightness-110 hover:shadow-lg"
+        >
+          블로그 보기
+          <IconArrowRight class="inline-block" />
+        </a>
+      </div>
     </section>
 
-    {
-      featuredPosts.length > 0 && (
-        <section
-          id="featured"
-          class:list={[
-            "pt-12 pb-6",
-            { "border-b border-border": recentPosts.length > 0 },
-          ]}
+    {/* Intro Section */}
+    <section class="bg-muted py-16 fade-in">
+      <div class="mx-auto max-w-3xl px-4 text-center">
+        <h2 class="text-2xl font-bold text-accent">함께하는 프로그래밍과 IT 이야기</h2>
+        <p class="mt-4 text-foreground/80 leading-relaxed [word-break:keep-all]">
+          이 블로그는 제가 프로그래밍과 IT 서비스에 대한 생각을 기록해 두기 위한 공간입니다.
+          기술은 끊임없이 발전하고 변화하지만, 그 과정에서 얻는 경험과 지식은 언제나 소중합니다.
+          프로그램 개발, IT 서비스, 그리고 일상 속에서 마주치는 다양한 기술적 고민들을 다루며,
+          모두가 쉽게 이해할 수 있도록 풀어보려 합니다.
+        </p>
+        <img
+          src="/images/windfree-logo.jpeg"
+          alt="windfree logo"
+          class="mx-auto mt-8 w-full max-w-2xl mix-blend-multiply dark:mix-blend-screen dark:invert"
+          loading="lazy"
+        />
+      </div>
+    </section>
+
+    {/* Recent Posts — Magazine Layout */}
+    <section class="app-layout-wide py-20 fade-in">
+      <div class="mb-10 text-center">
+        <h2 class="text-2xl font-bold">최근 글</h2>
+        <p class="mt-2 text-sm opacity-60">새로 올라온 포스트를 확인하세요</p>
+      </div>
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-5">
+        {/* Featured post — spans 3 columns */}
+        {featuredPost && (
+          <CardHome post={featuredPost} variant="featured" />
+        )}
+        {/* List posts — spans 2 columns */}
+        <div class="flex flex-col lg:col-span-2">
+          {listPosts.map(post => (
+            <CardHome post={post} variant="list" />
+          ))}
+        </div>
+      </div>
+      <div class="mt-10 text-center">
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-1 rounded-lg border border-accent px-6 py-2.5 text-sm font-medium text-accent transition-all hover:bg-accent hover:text-white"
         >
-          <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
-          <ul>
-            {featuredPosts.map(data => (
-              <Card variant="h3" {...data} />
-            ))}
-          </ul>
-        </section>
-      )
-    }
+          모든 글 보기
+          <IconArrowRight class="inline-block h-4 w-4" />
+        </a>
+      </div>
+    </section>
 
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              (data, index) =>
-                index < SITE.postPerIndex && <Card variant="h3" {...data} />
-            )}
-          </ul>
-        </section>
-      )
-    }
-
-    <div class="my-8 text-center">
-      <LinkButton href="/posts/">
-        All Posts
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
-    </div>
   </main>
   <Footer />
 </Layout>
 
 <script>
+  import "../scripts/fade-in.ts";
+
   document.addEventListener("astro:page-load", () => {
     const indexLayout = (document.querySelector("#main-content") as HTMLElement)
       ?.dataset?.layout;

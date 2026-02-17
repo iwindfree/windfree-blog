@@ -3,7 +3,9 @@ title: "고급 RAG 기법 (Advanced RAG Techniques)"
 author: iwindfree
 pubDatetime: 2025-02-18T09:00:00Z
 slug: "llm-rag-evaluation-advanced"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 20
 tags: ["ai", "llm", "rag", "evaluation"]
 description: "이번 노트북은 07-1.rag_evaluation.ipynb에서 이어지는 내용으로, 고급 RAG 기법을 학습하고 동일한 테스트 데이터로 평가합니다."
 ---

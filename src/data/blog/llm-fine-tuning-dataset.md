@@ -3,7 +3,9 @@ title: "08-1. 데이터셋 개념 정리"
 author: iwindfree
 pubDatetime: 2025-02-24T09:00:00Z
 slug: "llm-fine-tuning-dataset"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 21
 tags: ["ai", "llm", "fine-tuning"]
 description: "머신러닝/딥러닝 모델을 학습시킬 때 데이터를 어떻게 나누고 활용하는지 알아봅니다."
 ---

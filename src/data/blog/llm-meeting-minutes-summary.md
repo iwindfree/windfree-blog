@@ -3,7 +3,9 @@ title: "LLM을 활용한 회의록 자동 요약 시스템"
 author: iwindfree
 pubDatetime: 2025-01-21T09:00:00Z
 slug: "llm-meeting-minutes-summary"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 8
 tags: ["ai", "llm", "prompting"]
 description: "회의록 작성은 많은 조직에서 필수적이지만 시간이 많이 소요되는 작업입니다. 회의 내용을 정확하게 기록하고, 핵심 내용을 요약하며, 액션 아이템을 정리하는 데 회의 시간만큼의 시간이 걸릴 수 있습니다."
 ---

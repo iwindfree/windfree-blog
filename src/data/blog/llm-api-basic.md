@@ -3,7 +3,9 @@ title: "LLM API 기초 (Part 1/3)"
 author: iwindfree
 pubDatetime: 2025-01-13T09:00:00Z
 slug: "llm-api-basic"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 4
 tags: ["ai", "llm", "api"]
 description: "이 노트북은 LLM API 시리즈의 첫 번째 파트로, 대형 언어 모델 API의 기본 개념과 사용법을 다룹니다."
 ---

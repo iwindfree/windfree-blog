@@ -3,7 +3,9 @@ title: "Google Colab 사용해보기: 무료로 GPU 환경에서 AI 모델 실�
 author: iwindfree
 pubDatetime: 2025-01-29T09:00:00Z
 slug: "llm-using-google-colab"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 12
 tags: ["ai", "llm", "colab"]
 description: "!Open In Colabhttps://colab.research.google.com/assets/colab-badge.svghttps://colab.research.google.com/github/your-repo/google_colab_gpu_guide.ipynb"
 ---

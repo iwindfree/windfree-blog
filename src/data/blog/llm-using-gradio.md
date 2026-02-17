@@ -3,7 +3,9 @@ title: "Gradio 기본 사용법"
 author: iwindfree
 pubDatetime: 2025-01-27T09:00:00Z
 slug: "llm-using-gradio"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 10
 tags: ["ai", "llm", "gradio"]
 description: "Gradiohttps://gradio.app는 머신러닝 모델이나 Python 함수를 위한 웹 UI를 빠르게 만들 수 있는 프레임워크입니다."
 ---

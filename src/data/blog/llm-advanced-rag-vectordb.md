@@ -3,7 +3,9 @@ title: "고급 RAG: 벡터 데이터베이스를 활용한 문서 검색 시스�
 author: iwindfree
 pubDatetime: 2025-02-12T09:00:00Z
 slug: "llm-advanced-rag-vectordb"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 17
 tags: ["ai", "llm", "rag", "vectordb"]
 description: "이번 노트북에서는 11번 노트북에서 배운 RAG 개념을 확장하여, 실전에서 사용하는 고급 RAG 시스템을 구축합니다. 벡터 데이터베이스를 사용하여 대량의 문서를 효율적으로 검색하고, LLM이 정확한 답변을 생성하도록 만들어봅니다."
 ---

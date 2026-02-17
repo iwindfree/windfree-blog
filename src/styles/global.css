@@ -7,19 +7,27 @@
 
 :root,
 html[data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
-  --muted: #e6e6e6;
-  --border: #ece9e9;
+  --background: #FAFBFD;
+  --foreground: #1A2332;
+  --accent: #1B3A5C;
+  --accent-gold: #B8965A;
+  --muted: #F0F2F5;
+  --border: #E2E6EC;
+  --card-bg: #ffffff;
+  --hero-bg: #0D1B2A;
+  --hero-text: #E6EDF3;
 }
 
 html[data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff6b01;
-  --muted: #343f60;
-  --border: #ab4b08;
+  --background: #0D1117;
+  --foreground: #E6EDF3;
+  --accent: #4A7FB5;
+  --accent-gold: #D4AD6A;
+  --muted: #161B22;
+  --border: #21262D;
+  --card-bg: #161B22;
+  --hero-bg: #0D1B2A;
+  --hero-text: #E6EDF3;
 }
 
 @theme inline {
@@ -32,8 +40,12 @@ html[data-theme="dark"] {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
+  --color-accent-gold: var(--accent-gold);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-card-bg: var(--card-bg);
+  --color-hero-bg: var(--hero-bg);
+  --color-hero-text: var(--hero-text);
 }
 
 @layer base {
@@ -64,19 +76,76 @@ html[data-theme="dark"] {
 }
 
 @utility max-w-app {
-  @apply max-w-3xl;
+  @apply max-w-4xl;
 }
 
 @utility app-layout {
   @apply mx-auto w-full max-w-app px-4;
 }
 
+@utility app-layout-wide {
+  @apply mx-auto w-full max-w-6xl px-4;
+}
+
 .active-nav {
-  @apply underline decoration-wavy decoration-2 underline-offset-8;
+  @apply relative;
+}
+.active-nav::after {
+  content: "";
+  @apply absolute bottom-[-4px] left-0 h-[2px] w-full;
+  background-color: var(--accent-gold);
 }
 
 :target {
   scroll-margin-block: 1rem;
+}
+
+/* Ken Burns animation */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(-1%, -1%);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+.ken-burns {
+  animation: ken-burns 20s ease-in-out infinite;
+}
+
+/* Fade-in scroll animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-stagger > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-stagger.is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card transition utility */
+.card-transition {
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Notebook output cell styling */

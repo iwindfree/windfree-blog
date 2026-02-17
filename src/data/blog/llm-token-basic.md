@@ -3,7 +3,9 @@ title: "LLM 토큰 기본  개념"
 author: iwindfree
 pubDatetime: 2025-01-06T09:00:00Z
 slug: "llm-token-basic"
-category: "AI Engineering"
+category: "LLM Engineering"
+series: "LLM Engineering"
+seriesOrder: 1
 tags: ["ai", "llm", "tokenization"]
 description: "이번 노트북에서는 LLM의 핵심 개념인 토큰Token 과 무상태Stateless 특성에 대해 알아봅니다."
 ---

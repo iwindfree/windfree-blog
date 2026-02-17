@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { SHARE_LINKS } from "@/constants";
 import {
   IconWhatsapp,
@@ -23,7 +24,11 @@ const iconMap: Record<
 };
 
 export default function ShareLinks() {
-  const url = typeof window !== "undefined" ? window.location.href : "";
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    setUrl(window.location.href);
+  }, []);
 
   if (SHARE_LINKS.length === 0) return null;
 

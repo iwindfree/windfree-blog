@@ -6,8 +6,9 @@ slug: "building-effective-agents"
 category: "AI Agent Engineering"
 tags: ["ai", "llm", "agents"]
 description: "이번 노트북에서는 Anthropic의 연구 자료 Building Effective Agentshttps://www.anthropic.com/research/building-effective-agents를 기반으로 에이전트 시스템의 핵심 개념과 구축 패턴을 학습합니다."
-ogImage: ./building-effective-agents-thumb.png
 ---
+
+![Agent Architecture](/images/blog/building-effective-agents/agent_architecture.png)
 
 이번 노트북에서는 Anthropic의 연구 자료 [Building Effective Agents](https://www.anthropic.com/research/building-effective-agents)를 기반으로 **에이전트 시스템**의 핵심 개념과 구축 패턴을 학습합니다.
 

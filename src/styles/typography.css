@@ -70,7 +70,7 @@
       @apply rounded bg-muted/75 p-1 wrap-break-word text-foreground before:content-none after:content-none;
     }
 
-    .astro-code code {
+    .shiki code {
       @apply flex-[1_0_100%] bg-inherit p-0;
     }
 
@@ -92,17 +92,17 @@
   }
 
   /* ===== Code Blocks & Syntax Highlighting ===== */
-  .astro-code {
+  .shiki {
     @apply flex border bg-(--shiki-light-bg) text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);
   }
 
-  html[data-theme="dark"] .astro-code {
+  html[data-theme="dark"] .shiki {
     @apply bg-(--shiki-dark-bg) text-(--shiki-dark) [&_span]:text-(--shiki-dark);
   }
 
   /* Styles for Shiki transformers */
   /* https://shiki.style/packages/transformers */
-  .astro-code {
+  .shiki {
     .line.diff.add {
       @apply relative inline-block w-full bg-green-400/20 before:absolute before:-left-3 before:text-green-500 before:content-['+'];
     }

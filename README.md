@@ -1,180 +1,134 @@
-# AstroPaper 📄
+# 바람부는 자유 (ws.blog)
 
-![AstroPaper](public/astropaper-og.jpg)
-[![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/community/file/1356898632249991861)
-![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![GitHub](https://img.shields.io/github/license/satnaing/astro-paper?color=%232F3741&style=for-the-badge)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white&style=for-the-badge)](https://conventionalcommits.org)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge)](http://commitizen.github.io/cz-cli/)
+Next.js 15 App Router 기반 개인 기술 블로그.
 
-AstroPaper is a minimal, responsive, accessible and SEO-friendly Astro blog theme. This theme is designed and crafted based on [my personal blog](https://satnaing.dev/blog).
+## Tech Stack
 
-Read [the blog posts](https://astro-paper.pages.dev/posts/) or check [the README Documentation Section](#-documentation) for more info.
+- **Framework**: Next.js 15 (App Router, React 19)
+- **Styling**: Tailwind CSS v4, `@tailwindcss/typography`
+- **Markdown**: unified + remark + rehype 파이프라인
+- **Syntax Highlighting**: Shiki (dual theme — light/dark)
+- **Search**: Pagefind (정적 검색 인덱스)
+- **OG Image**: `@vercel/og`
+- **Validation**: Zod (frontmatter 스키마)
+- **Deploy**: Vercel
 
-## 🔥 Features
-
-- [x] type-safe markdown
-- [x] super fast performance
-- [x] accessible (Keyboard/VoiceOver)
-- [x] responsive (mobile ~ desktops)
-- [x] SEO-friendly
-- [x] light & dark mode
-- [x] fuzzy search
-- [x] draft posts & pagination
-- [x] sitemap & rss feed
-- [x] followed best practices
-- [x] highly customizable
-- [x] dynamic OG image generation for blog posts [#15](https://github.com/satnaing/astro-paper/pull/15) ([Blog Post](https://astro-paper.pages.dev/posts/dynamic-og-image-generation-in-astropaper-blog-posts/))
-
-_Note: I've tested screen-reader accessibility of AstroPaper using **VoiceOver** on Mac and **TalkBack** on Android. I couldn't test all other screen-readers out there. However, accessibility enhancements in AstroPaper should be working fine on others as well._
-
-## ✅ Lighthouse Score
-
-<p align="center">
-  <a href="https://pagespeed.web.dev/report?url=https%3A%2F%2Fastro-paper.pages.dev%2F&form_factor=desktop">
-    <img width="710" alt="AstroPaper Lighthouse Score" src="AstroPaper-lighthouse-score.svg">
-  </a>
-</p>
-
-## 🚀 Project Structure
-
-Inside of AstroPaper, you'll see the following folders and files:
+## Getting Started
 
 ```bash
-/
-├── public/
-│   ├── pagefind/ # auto-generated when build
-│   ├── favicon.svg
-│   └── astropaper-og.jpg
-├── src/
-│   ├── assets/
-│   │   ├── icons/
-│   │   └── images/
-│   ├── components/
-│   ├── data/
-│   │   └── blog/
-│   │       └── some-blog-posts.md
-│   ├── layouts/
-│   ├── pages/
-│   ├── scripts/
-│   ├── styles/
-│   ├── utils/
-│   ├── config.ts
-│   ├── constants.ts
-│   ├── content.config.ts
-│   ├── env.d.ts
-│   └── remark-collapse.d.ts
-└── astro.config.ts
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-All blog posts are stored in `src/data/blog` directory.
-
-## 📖 Documentation
-
-Documentation can be read in two formats\_ _markdown_ & _blog post_.
-
-- Configuration - [markdown](src/data/blog/how-to-configure-astropaper-theme.md) | [blog post](https://astro-paper.pages.dev/posts/how-to-configure-astropaper-theme/)
-- Add Posts - [markdown](src/data/blog/adding-new-post.md) | [blog post](https://astro-paper.pages.dev/posts/adding-new-posts-in-astropaper-theme/)
-- Customize Color Schemes - [markdown](src/data/blog/customizing-astropaper-theme-color-schemes.md) | [blog post](https://astro-paper.pages.dev/posts/customizing-astropaper-theme-color-schemes/)
-- Predefined Color Schemes - [markdown](src/data/blog/predefined-color-schemes.md) | [blog post](https://astro-paper.pages.dev/posts/predefined-color-schemes/)
-
-## 💻 Tech Stack
-
-**Main Framework** - [Astro](https://astro.build/)  
-**Type Checking** - [TypeScript](https://www.typescriptlang.org/)  
-**Styling** - [TailwindCSS](https://tailwindcss.com/)  
-**UI/UX** - [Figma Design File](https://www.figma.com/community/file/1356898632249991861)  
-**Static Search** - [FuseJS](https://pagefind.app/)  
-**Icons** - [Tablers](https://tabler-icons.io/)  
-**Code Formatting** - [Prettier](https://prettier.io/)  
-**Deployment** - [Cloudflare Pages](https://pages.cloudflare.com/)  
-**Illustration in About Page** - [https://freesvgillustration.com](https://freesvgillustration.com/)  
-**Linting** - [ESLint](https://eslint.org)
-
-## 👨🏻‍💻 Running Locally
-
-You can start using this project locally by running the following command in your desired directory:
-
-```bash
-# pnpm
-pnpm create astro@latest --template satnaing/astro-paper
-
-# npm
-npm create astro@latest -- --template satnaing/astro-paper
-
-# yarn
-yarn create astro --template satnaing/astro-paper
-
-# bun
-bun create astro@latest -- --template satnaing/astro-paper
-```
-
-Then start the project by running the following commands:
-
-```bash
-# install dependencies if you haven't done so in the previous step.
 pnpm install
-
-# start running the project
-pnpm run dev
+pnpm dev
 ```
 
-As an alternative approach, if you have Docker installed, you can use Docker to run this project locally. Here's how:
+http://localhost:3000 에서 확인.
 
-```bash
-# Build the Docker image
-docker build -t astropaper .
+## Scripts
 
-# Run the Docker container
-docker run -p 4321:80 astropaper
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | 개발 서버 (Turbopack) |
+| `pnpm build` | 프로덕션 빌드 + Pagefind 인덱싱 |
+| `pnpm start` | 프로덕션 서버 |
+| `pnpm lint` | ESLint |
+| `pnpm format` | Prettier 포맷팅 |
+
+## Project Structure
+
+```
+src/
+├── app/                   # Next.js App Router
+│   ├── layout.tsx         # Root layout (메타, 테마, 폰트)
+│   ├── page.tsx           # 홈
+│   ├── blog/[slug]/       # 블로그 상세
+│   ├── tags/[tag]/        # 태그별 포스트
+│   ├── categories/[category]/
+│   ├── archives/          # 연도별 아카이브
+│   ├── search/            # Pagefind 검색
+│   ├── about/
+│   ├── og/[slug]/route.tsx  # OG 이미지 생성
+│   ├── rss.xml/route.ts     # RSS 피드
+│   ├── robots.ts
+│   └── sitemap.ts
+├── components/            # React 컴포넌트
+├── data/blog/             # 마크다운 포스트
+├── lib/
+│   ├── posts.ts           # 포스트 로딩 (gray-matter + fs)
+│   ├── mdx.ts             # 마크다운 → HTML 렌더링
+│   └── schema.ts          # Zod frontmatter 스키마
+├── utils/                 # 정렬, 필터, 슬러그 유틸리티
+├── styles/
+│   ├── global.css
+│   └── typography.css
+└── config.ts              # 사이트 설정
 ```
 
-## Google Site Verification (optional)
+## 새 포스트 작성 가이드
 
-You can easily add your [Google Site Verification HTML tag](https://support.google.com/webmasters/answer/9008080#meta_tag_verification&zippy=%2Chtml-tag) in AstroPaper using an environment variable. This step is optional. If you don't add the following environment variable, the google-site-verification tag won't appear in the HTML `<head>` section.
+### 파일 생성
 
-```bash
-# in your environment variable file (.env)
-PUBLIC_GOOGLE_SITE_VERIFICATION=your-google-site-verification-value
-```
+`src/data/blog/my-new-post.md` 경로에 마크다운 파일을 생성한다.
 
-> See [this discussion](https://github.com/satnaing/astro-paper/discussions/334#discussioncomment-10139247) for adding AstroPaper to the Google Search Console.
+### Frontmatter 템플릿
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-> **_Note!_** For `Docker` commands we must have it [installed](https://docs.docker.com/engine/install/) in your machine.
-
-| Command                              | Action                                                                                                                           |
-| :----------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
-| `pnpm install`                       | Installs dependencies                                                                                                            |
-| `pnpm run dev`                       | Starts local dev server at `localhost:4321`                                                                                      |
-| `pnpm run build`                     | Build your production site to `./dist/`                                                                                          |
-| `pnpm run preview`                   | Preview your build locally, before deploying                                                                                     |
-| `pnpm run format:check`              | Check code format with Prettier                                                                                                  |
-| `pnpm run format`                    | Format codes with Prettier                                                                                                       |
-| `pnpm run sync`                      | Generates TypeScript types for all Astro modules. [Learn more](https://docs.astro.build/en/reference/cli-reference/#astro-sync). |
-| `pnpm run lint`                      | Lint with ESLint                                                                                                                 |
-| `docker compose up -d`               | Run AstroPaper on docker, You can access with the same hostname and port informed on `dev` command.                              |
-| `docker compose run app npm install` | You can run any command above into the docker container.                                                                         |
-| `docker build -t astropaper .`       | Build Docker image for AstroPaper.                                                                                               |
-| `docker run -p 4321:80 astropaper`   | Run AstroPaper on Docker. The website will be accessible at `http://localhost:4321`.                                             |
-
-> **_Warning!_** Windows PowerShell users may need to install the [concurrently package](https://www.npmjs.com/package/concurrently) if they want to [run diagnostics](https://docs.astro.build/en/reference/cli-reference/#astro-check) during development (`astro check --watch & astro dev`). For more info, see [this issue](https://github.com/satnaing/astro-paper/issues/113).
-
-## ✨ Feedback & Suggestions
-
-If you have any suggestions/feedback, you can contact me via [my email](mailto:contact@satnaing.dev). Alternatively, feel free to open an issue if you find bugs or want to request new features.
-
-## 📜 License
-
-Licensed under the MIT License, Copyright © 2025
-
+```markdown
 ---
+title: "글 제목"
+author: iwindfree
+pubDatetime: 2026-02-18T10:00:00Z
+slug: "url-slug-name"
+category: "카테고리"
+tags: ["tag1", "tag2"]
+description: "글 요약 설명"
+---
+```
 
-Made with 🤍 by [Sat Naing](https://satnaing.dev) 👨🏻‍💻 and [contributors](https://github.com/satnaing/astro-paper/graphs/contributors).
+### 필수 필드
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| `title` | string | 글 제목 |
+| `pubDatetime` | date | 발행일시 (ISO 8601) |
+| `description` | string | 글 요약 설명 |
+
+### 선택 필드
+
+| 필드 | 타입 | 기본값 | 설명 |
+|------|------|--------|------|
+| `author` | string | `iwindfree` | 작성자 |
+| `slug` | string | 파일명 | URL 경로 |
+| `category` | enum | - | 카테고리 (아래 허용 값 참조) |
+| `tags` | string[] | `["others"]` | 태그 목록 |
+| `featured` | boolean | - | 메인 페이지 상단 노출 |
+| `draft` | boolean | - | `true`이면 비공개 |
+| `series` | string | - | 시리즈 이름 |
+| `seriesOrder` | number | - | 시리즈 내 순서 |
+| `ogImage` | string | - | OG 이미지 경로 |
+| `canonicalURL` | string | - | 원본 URL (중복 게시 시) |
+| `modDatetime` | date | - | 수정일시 |
+
+### category 허용 값
+
+`MAUI 기본` · `MAUI 활용` · `IT 잡썰` · `LLM Engineering` · `AI Agent Engineering` · `RUST` · `JAVA BCI` · `프로그래밍 노트`
+
+## 이미지 가이드
+
+이미지는 `public/images/blog/<글-폴더명>/` 디렉토리에 저장하고, 본문에서 절대 경로로 참조한다.
+
+```markdown
+![설명](/images/blog/java-bci/javaagent.png)
+```
+
+디렉토리 구조 예시:
+
+```
+public/images/blog/
+├── java-bci/
+│   ├── java_class_loading.png
+│   └── javaagent.png
+└── rust-stack-heap/
+    └── ...
+```
+
+## License
+
+MIT

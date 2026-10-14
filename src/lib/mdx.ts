@@ -22,6 +22,10 @@ export async function renderMarkdown(source: string): Promise<string> {
     .use(rehypeShiki as any, {
       themes: { light: "github-light", dark: "github-dark" },
       defaultColor: false,
+      // Style fences without a language (or with an unknown one) as plain
+      // text code blocks instead of leaving them unprocessed
+      defaultLanguage: "text",
+      fallbackLanguage: "text",
       wrap: true,
       transformers: [
         transformerNotationHighlight(),

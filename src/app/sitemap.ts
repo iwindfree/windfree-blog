@@ -14,7 +14,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: "daily" },
-    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "daily" },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+    },
     { url: `${baseUrl}/about`, changeFrequency: "monthly" },
     { url: `${baseUrl}/tags`, changeFrequency: "weekly" },
     { url: `${baseUrl}/categories`, changeFrequency: "weekly" },
@@ -24,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/search`, changeFrequency: "monthly" },
   ];
 
-  const postPages: MetadataRoute.Sitemap = sortedPosts.map((post) => ({
+  const postPages: MetadataRoute.Sitemap = sortedPosts.map(post => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(post.data.modDatetime ?? post.data.pubDatetime),
     changeFrequency: "weekly",
@@ -35,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "weekly",
   }));
 
-  const categoryPages: MetadataRoute.Sitemap = categories.map((category) => ({
+  const categoryPages: MetadataRoute.Sitemap = categories.map(category => ({
     url: `${baseUrl}/categories/${encodeURIComponent(category)}`,
     changeFrequency: "weekly",
   }));

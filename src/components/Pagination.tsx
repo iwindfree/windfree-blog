@@ -25,14 +25,14 @@ export default function Pagination({
       {prevUrl ? (
         <Link
           href={prevUrl}
-          className="group me-4 inline-flex select-none items-center gap-1 hover:text-accent"
+          className="group me-4 inline-flex items-center gap-1 select-none hover:text-accent"
           aria-label="Goto Previous Page"
         >
           <IconArrowLeft className="inline-block rtl:rotate-180" />
           Prev
         </Link>
       ) : (
-        <span className="me-4 inline-flex select-none items-center gap-1 opacity-50">
+        <span className="me-4 inline-flex items-center gap-1 opacity-50 select-none">
           <IconArrowLeft className="inline-block rtl:rotate-180" />
           Prev
         </span>
@@ -41,14 +41,14 @@ export default function Pagination({
       {nextUrl ? (
         <Link
           href={nextUrl}
-          className="group ms-4 inline-flex select-none items-center gap-1 hover:text-accent"
+          className="group ms-4 inline-flex items-center gap-1 select-none hover:text-accent"
           aria-label="Goto Next Page"
         >
           Next
           <IconArrowRight className="inline-block rtl:rotate-180" />
         </Link>
       ) : (
-        <span className="ms-4 inline-flex select-none items-center gap-1 opacity-50">
+        <span className="ms-4 inline-flex items-center gap-1 opacity-50 select-none">
           Next
           <IconArrowRight className="inline-block rtl:rotate-180" />
         </span>

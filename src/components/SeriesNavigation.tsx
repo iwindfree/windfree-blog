@@ -14,16 +14,12 @@ export default function SeriesNavigation({
   if (!series) return null;
 
   const seriesPosts = allPosts
-    .filter((p) => p.data.series === series)
-    .sort(
-      (a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0)
-    );
+    .filter(p => p.data.series === series)
+    .sort((a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0));
 
   if (seriesPosts.length <= 1) return null;
 
-  const currentIndex = seriesPosts.findIndex(
-    (p) => p.id === currentPost.id
-  );
+  const currentIndex = seriesPosts.findIndex(p => p.id === currentPost.id);
   const prevPost = currentIndex > 0 ? seriesPosts[currentIndex - 1] : null;
   const nextPost =
     currentIndex < seriesPosts.length - 1
@@ -70,7 +66,7 @@ export default function SeriesNavigation({
         {nextPost ? (
           <Link
             href={`/blog/${nextPost.slug}`}
-            className="text-sm text-end hover:text-accent"
+            className="text-end text-sm hover:text-accent"
           >
             다음: {nextPost.data.title} &rarr;
           </Link>

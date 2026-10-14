@@ -15,7 +15,7 @@ export async function GET() {
     language: SITE.lang ?? "ko",
   });
 
-  sortedPosts.forEach((post) => {
+  sortedPosts.forEach(post => {
     feed.item({
       title: post.data.title,
       description: post.data.description,

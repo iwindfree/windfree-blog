@@ -45,10 +45,7 @@ export default function Breadcrumb() {
             </li>
           ) : (
             <li key={breadcrumb}>
-              <Link
-                href={`/${breadcrumb}/`}
-                className="capitalize opacity-70"
-              >
+              <Link href={`/${breadcrumb}/`} className="capitalize opacity-70">
                 {breadcrumb}
               </Link>
               <span aria-hidden="true">&raquo;</span>

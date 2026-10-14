@@ -7,36 +7,38 @@
 
 :root,
 html[data-theme="light"] {
-  --background: #FAFBFD;
-  --foreground: #1A2332;
-  --accent: #1B3A5C;
-  --accent-gold: #B8965A;
-  --muted: #F0F2F5;
-  --border: #E2E6EC;
+  --background: #fafbfd;
+  --foreground: #1a2332;
+  --accent: #1b3a5c;
+  --accent-gold: #b8965a;
+  --muted: #f0f2f5;
+  --border: #e2e6ec;
   --card-bg: #ffffff;
-  --hero-bg: #0D1B2A;
-  --hero-text: #E6EDF3;
+  --hero-bg: #0d1b2a;
+  --hero-text: #e6edf3;
 }
 
 html[data-theme="dark"] {
-  --background: #0D1117;
-  --foreground: #E6EDF3;
-  --accent: #4A7FB5;
-  --accent-gold: #D4AD6A;
-  --muted: #161B22;
-  --border: #21262D;
-  --card-bg: #161B22;
-  --hero-bg: #0D1B2A;
-  --hero-text: #E6EDF3;
+  --background: #0d1117;
+  --foreground: #e6edf3;
+  --accent: #4a7fb5;
+  --accent-gold: #d4ad6a;
+  --muted: #161b22;
+  --border: #21262d;
+  --card-bg: #161b22;
+  --hero-bg: #0d1b2a;
+  --hero-text: #e6edf3;
 }
 
 @theme inline {
-  --font-app: "Pretendard Variable", "Pretendard", -apple-system,
-    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
-    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono",
-    Menlo, Consolas, "Liberation Mono", monospace;
+  --font-app:
+    "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
@@ -121,7 +123,8 @@ html[data-theme="dark"] {
 .fade-in {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+  transition:
+    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
     transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -133,7 +136,8 @@ html[data-theme="dark"] {
 .fade-in-stagger > * {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+  transition:
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -144,7 +148,8 @@ html[data-theme="dark"] {
 
 /* Card transition utility */
 .card-transition {
-  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+  transition:
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

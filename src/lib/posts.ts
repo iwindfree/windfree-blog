@@ -41,7 +41,7 @@ export function getAllPosts(): BlogPost[] {
   const files = getMdFiles(blogDir);
 
   const posts = files
-    .map((filePath) => {
+    .map(filePath => {
       const fileContent = fs.readFileSync(filePath, "utf-8");
       const { data: rawData, content } = matter(fileContent);
 
@@ -72,5 +72,5 @@ export function getAllPosts(): BlogPost[] {
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
-  return getAllPosts().find((post) => post.slug === slug);
+  return getAllPosts().find(post => post.slug === slug);
 }

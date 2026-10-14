@@ -44,15 +44,13 @@ export default function BackToTopButton() {
 
   return (
     <div
-      className={`fixed end-4 bottom-8 z-50 md:sticky md:end-auto md:float-end md:me-1 transition duration-500 ${
-        visible
-          ? "translate-y-0 opacity-100"
-          : "translate-y-14 opacity-0"
+      className={`fixed end-4 bottom-8 z-50 transition duration-500 md:sticky md:end-auto md:float-end md:me-1 ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-14 opacity-0"
       }`}
     >
       <button
         onClick={scrollToTop}
-        className="group relative bg-background px-2 py-1 size-14 rounded-full shadow-xl md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none md:bg-background/35 md:bg-clip-padding md:backdrop-blur-lg"
+        className="group relative size-14 rounded-full bg-background px-2 py-1 shadow-xl md:h-8 md:w-fit md:rounded-md md:bg-background/35 md:bg-clip-padding md:shadow-none md:backdrop-blur-lg md:focus-visible:rounded-none"
       >
         <span
           ref={progressRef}

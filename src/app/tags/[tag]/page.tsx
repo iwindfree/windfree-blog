@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tag } = await params;
   const posts = getAllPosts();
   const tags = getUniqueTags(posts);
-  const tagObj = tags.find((t) => t.tag === tag);
+  const tagObj = tags.find(t => t.tag === tag);
   const tagName = tagObj?.tagName ?? tag;
 
   return {
@@ -34,7 +34,7 @@ export default async function TagPostsPage({ params }: Props) {
   const { tag } = await params;
   const posts = getAllPosts();
   const tags = getUniqueTags(posts);
-  const tagObj = tags.find((t) => t.tag === tag);
+  const tagObj = tags.find(t => t.tag === tag);
   const tagName = tagObj?.tagName ?? tag;
   const tagPosts = getPostsByTag(posts, tag);
 
@@ -50,7 +50,7 @@ export default async function TagPostsPage({ params }: Props) {
           All the articles with the tag &quot;{tagName}&quot;.
         </p>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {tagPosts.map((post) => (
+          {tagPosts.map(post => (
             <CardBlog key={post.id} post={post} />
           ))}
         </div>

@@ -18,7 +18,7 @@ export default function CategoryFilter({
   const filteredPosts =
     activeCategory === "all"
       ? posts
-      : posts.filter((post) => post.data.category === activeCategory);
+      : posts.filter(post => post.data.category === activeCategory);
 
   return (
     <>
@@ -34,7 +34,7 @@ export default function CategoryFilter({
         >
           전체
         </button>
-        {categories.map((category) => (
+        {categories.map(category => (
           <button
             key={category}
             className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
@@ -50,7 +50,7 @@ export default function CategoryFilter({
       </div>
 
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredPosts.map((post) => (
+        {filteredPosts.map(post => (
           <CardBlog key={post.id} post={post} />
         ))}
       </div>

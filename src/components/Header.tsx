@@ -17,8 +17,8 @@ export default function Header() {
       : pathname;
 
   const isActive = (path: string) => {
-    const currentPathArray = currentPath.split("/").filter((p) => p.trim());
-    const pathArray = path.split("/").filter((p) => p.trim());
+    const currentPathArray = currentPath.split("/").filter(p => p.trim());
+    const pathArray = path.split("/").filter(p => p.trim());
     return currentPath === path || currentPathArray[0] === pathArray[0];
   };
 
@@ -55,7 +55,7 @@ export default function Header() {
             <ul
               className={`${
                 menuOpen ? "flex" : "hidden"
-              } absolute top-full left-0 w-full flex-col border-b border-border/50 backdrop-blur-xl [&>li>a]:block [&>li>a]:px-6 [&>li>a]:py-3 [&>li>a]:font-medium [&>li>a]:hover:text-accent-gold sm:static sm:flex sm:w-auto sm:flex-row sm:border-none sm:bg-transparent sm:backdrop-blur-none sm:[&>li>a]:px-3 sm:[&>li>a]:py-1 sm:[&>li>a]:hover:text-accent-gold`}
+              } absolute top-full left-0 w-full flex-col border-b border-border/50 backdrop-blur-xl sm:static sm:flex sm:w-auto sm:flex-row sm:border-none sm:bg-transparent sm:backdrop-blur-none [&>li>a]:block [&>li>a]:px-6 [&>li>a]:py-3 [&>li>a]:font-medium [&>li>a]:hover:text-accent-gold sm:[&>li>a]:px-3 sm:[&>li>a]:py-1 sm:[&>li>a]:hover:text-accent-gold`}
               style={{
                 background: menuOpen
                   ? "var(--menu-bg, rgba(250,251,253,0.95))"

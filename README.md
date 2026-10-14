@@ -24,13 +24,13 @@ http://localhost:3000 에서 확인.
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | 개발 서버 (Turbopack) |
-| `pnpm build` | 프로덕션 빌드 + Pagefind 인덱싱 |
-| `pnpm start` | 프로덕션 서버 |
-| `pnpm lint` | ESLint |
-| `pnpm format` | Prettier 포맷팅 |
+| Command       | Description                     |
+| ------------- | ------------------------------- |
+| `pnpm dev`    | 개발 서버 (Turbopack)           |
+| `pnpm build`  | 프로덕션 빌드 + Pagefind 인덱싱 |
+| `pnpm start`  | 프로덕션 서버                   |
+| `pnpm lint`   | ESLint                          |
+| `pnpm format` | Prettier 포맷팅                 |
 
 ## Project Structure
 
@@ -84,27 +84,27 @@ description: "글 요약 설명"
 
 ### 필수 필드
 
-| 필드 | 타입 | 설명 |
-|------|------|------|
-| `title` | string | 글 제목 |
-| `pubDatetime` | date | 발행일시 (ISO 8601) |
-| `description` | string | 글 요약 설명 |
+| 필드          | 타입   | 설명                |
+| ------------- | ------ | ------------------- |
+| `title`       | string | 글 제목             |
+| `pubDatetime` | date   | 발행일시 (ISO 8601) |
+| `description` | string | 글 요약 설명        |
 
 ### 선택 필드
 
-| 필드 | 타입 | 기본값 | 설명 |
-|------|------|--------|------|
-| `author` | string | `iwindfree` | 작성자 |
-| `slug` | string | 파일명 | URL 경로 |
-| `category` | enum | - | 카테고리 (아래 허용 값 참조) |
-| `tags` | string[] | `["others"]` | 태그 목록 |
-| `featured` | boolean | - | 메인 페이지 상단 노출 |
-| `draft` | boolean | - | `true`이면 비공개 |
-| `series` | string | - | 시리즈 이름 |
-| `seriesOrder` | number | - | 시리즈 내 순서 |
-| `ogImage` | string | - | OG 이미지 경로 |
-| `canonicalURL` | string | - | 원본 URL (중복 게시 시) |
-| `modDatetime` | date | - | 수정일시 |
+| 필드           | 타입     | 기본값       | 설명                         |
+| -------------- | -------- | ------------ | ---------------------------- |
+| `author`       | string   | `iwindfree`  | 작성자                       |
+| `slug`         | string   | 파일명       | URL 경로                     |
+| `category`     | enum     | -            | 카테고리 (아래 허용 값 참조) |
+| `tags`         | string[] | `["others"]` | 태그 목록                    |
+| `featured`     | boolean  | -            | 메인 페이지 상단 노출        |
+| `draft`        | boolean  | -            | `true`이면 비공개            |
+| `series`       | string   | -            | 시리즈 이름                  |
+| `seriesOrder`  | number   | -            | 시리즈 내 순서               |
+| `ogImage`      | string   | -            | OG 이미지 경로               |
+| `canonicalURL` | string   | -            | 원본 URL (중복 게시 시)      |
+| `modDatetime`  | date     | -            | 수정일시                     |
 
 ### category 허용 값
 

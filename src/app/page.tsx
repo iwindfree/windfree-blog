@@ -19,7 +19,7 @@ export default function HomePage() {
       <Header />
       <main id="main-content">
         {/* Hero Section */}
-        <section className="relative h-[75vh] min-h-[480px] max-h-[720px] overflow-hidden">
+        <section className="relative h-[75vh] max-h-[720px] min-h-[480px] overflow-hidden">
           <div
             className="ken-burns absolute inset-0 bg-cover bg-center"
             style={{
@@ -27,8 +27,8 @@ export default function HomePage() {
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0D1B2A]/60 via-transparent to-transparent" />
-          <div className="app-layout relative flex h-full flex-col items-start justify-end pb-16">
-            <span className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-accent-gold">
+          <div className="relative app-layout flex h-full flex-col items-start justify-end pb-16">
+            <span className="mb-4 text-xs font-semibold tracking-[0.2em] text-accent-gold uppercase">
               Notes for a Some day
             </span>
             <h1 className="mb-2 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
@@ -42,7 +42,7 @@ export default function HomePage() {
             </p>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 rounded-lg bg-accent-gold px-6 py-3 font-semibold text-white transition-all hover:brightness-110 hover:shadow-lg"
+              className="inline-flex items-center gap-2 rounded-lg bg-accent-gold px-6 py-3 font-semibold text-white transition-all hover:shadow-lg hover:brightness-110"
             >
               블로그 보기
               <IconArrowRight className="inline-block" />
@@ -57,12 +57,12 @@ export default function HomePage() {
               <h2 className="text-2xl font-bold text-accent">
                 함께하는 프로그래밍과 IT 이야기
               </h2>
-              <p className="mt-4 leading-relaxed text-foreground/80 [word-break:keep-all]">
-                이 블로그는 제가 프로그래밍과 IT 서비스에 대한 생각을 기록해 두기
-                위한 공간입니다. 기술은 끊임없이 발전하고 변화하지만, 그 과정에서
-                얻는 경험과 지식은 언제나 소중합니다. 프로그램 개발, IT 서비스,
-                그리고 일상 속에서 마주치는 다양한 기술적 고민들을 다루며, 모두가
-                쉽게 이해할 수 있도록 풀어보려 합니다.
+              <p className="mt-4 leading-relaxed [word-break:keep-all] text-foreground/80">
+                이 블로그는 제가 프로그래밍과 IT 서비스에 대한 생각을 기록해
+                두기 위한 공간입니다. 기술은 끊임없이 발전하고 변화하지만, 그
+                과정에서 얻는 경험과 지식은 언제나 소중합니다. 프로그램 개발, IT
+                서비스, 그리고 일상 속에서 마주치는 다양한 기술적 고민들을
+                다루며, 모두가 쉽게 이해할 수 있도록 풀어보려 합니다.
               </p>
               <img
                 src="/images/windfree-logo.jpeg"
@@ -88,7 +88,7 @@ export default function HomePage() {
                 <CardHome post={featuredPost} variant="featured" />
               )}
               <div className="flex flex-col lg:col-span-2">
-                {listPosts.map((post) => (
+                {listPosts.map(post => (
                   <CardHome key={post.id} post={post} variant="list" />
                 ))}
               </div>

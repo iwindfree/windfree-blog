@@ -14,7 +14,7 @@ interface Props {
 export async function generateStaticParams() {
   const posts = getAllPosts();
   const categories = getUniqueCategories(posts);
-  return categories.map((category) => ({ category }));
+  return categories.map(category => ({ category }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -43,7 +43,7 @@ export default async function CategoryPostsPage({ params }: Props) {
           &quot;{decoded}&quot; 카테고리의 모든 글.
         </p>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {categoryPosts.map((post) => (
+          {categoryPosts.map(post => (
             <CardBlog key={post.id} post={post} />
           ))}
         </div>

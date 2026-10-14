@@ -23,7 +23,7 @@ export default function CategoriesPage() {
         <h1 className="text-2xl font-semibold sm:text-3xl">Categories</h1>
         <p className="mt-2 mb-6 italic">All categories.</p>
         <ul className="flex flex-wrap gap-6">
-          {categories.map((category) => {
+          {categories.map(category => {
             const count = getPostsByCategory(posts, category).length;
             return (
               <li key={category}>

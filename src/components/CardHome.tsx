@@ -37,11 +37,11 @@ export default function CardHome({ post, variant = "list" }: CardHomeProps) {
         </div>
         <div className="flex flex-1 flex-col p-5">
           {category && (
-            <span className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent-gold">
+            <span className="mb-2 text-xs font-semibold tracking-wider text-accent-gold uppercase">
               {category}
             </span>
           )}
-          <h3 className="mb-2 text-xl font-semibold leading-snug transition-colors group-hover:text-accent">
+          <h3 className="mb-2 text-xl leading-snug font-semibold transition-colors group-hover:text-accent">
             {title}
           </h3>
           <Datetime {...datetimeProps} className="mb-2 text-sm opacity-60" />
@@ -74,11 +74,11 @@ export default function CardHome({ post, variant = "list" }: CardHomeProps) {
       </div>
       <div className="flex min-w-0 flex-1 flex-col">
         {category && (
-          <span className="mb-1 text-xs font-semibold uppercase tracking-wider text-accent-gold">
+          <span className="mb-1 text-xs font-semibold tracking-wider text-accent-gold uppercase">
             {category}
           </span>
         )}
-        <h3 className="mb-1 line-clamp-1 text-sm font-semibold leading-snug transition-colors group-hover:text-accent">
+        <h3 className="mb-1 line-clamp-1 text-sm leading-snug font-semibold transition-colors group-hover:text-accent">
           {title}
         </h3>
         <Datetime {...datetimeProps} className="text-xs opacity-50" />

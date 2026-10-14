@@ -20,8 +20,8 @@ export default function FadeIn({
     if (!el) return;
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
+      entries => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
             const target = entry.target as HTMLElement;
             target.classList.add("is-visible");

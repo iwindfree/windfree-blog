@@ -9,10 +9,10 @@ export function getPath(
   const pathSegments = filePath
     ?.replace(BLOG_PATH, "")
     .split("/")
-    .filter((path) => path !== "")
-    .filter((path) => !path.startsWith("_"))
+    .filter(path => path !== "")
+    .filter(path => !path.startsWith("_"))
     .slice(0, -1)
-    .map((segment) => slugifyStr(segment));
+    .map(segment => slugifyStr(segment));
 
   const basePath = includeBase ? "/blog" : "";
 

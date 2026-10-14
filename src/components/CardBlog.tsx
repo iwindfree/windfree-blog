@@ -35,18 +35,18 @@ export default function CardBlog({ post }: CardBlogProps) {
       </div>
       <div className="flex flex-1 flex-col p-5">
         {category && (
-          <span className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent-gold">
+          <span className="mb-2 text-xs font-semibold tracking-wider text-accent-gold uppercase">
             {category}
           </span>
         )}
-        <h3 className="mb-2 text-lg font-semibold leading-snug transition-colors group-hover:text-accent">
+        <h3 className="mb-2 text-lg leading-snug font-semibold transition-colors group-hover:text-accent">
           {title}
         </h3>
         <Datetime {...datetimeProps} className="mb-2 text-sm opacity-60" />
         <p className="mb-3 line-clamp-2 text-sm opacity-75">{description}</p>
         {tags && tags.length > 0 && (
           <div className="mt-auto flex flex-wrap gap-1.5">
-            {tags.slice(0, 3).map((tag) => (
+            {tags.slice(0, 3).map(tag => (
               <span
                 key={tag}
                 className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium opacity-75"

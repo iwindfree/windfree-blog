@@ -44,12 +44,8 @@ export default function SearchClient() {
         search.triggerSearch(query);
       }
 
-      const searchInput = document.querySelector(
-        ".pagefind-ui__search-input"
-      );
-      const clearButton = document.querySelector(
-        ".pagefind-ui__search-clear"
-      );
+      const searchInput = document.querySelector(".pagefind-ui__search-input");
+      const clearButton = document.querySelector(".pagefind-ui__search-clear");
 
       function resetSearchParam(e: Event) {
         if ((e.target as HTMLInputElement)?.value.trim() === "") {

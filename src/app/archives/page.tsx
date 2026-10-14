@@ -33,7 +33,7 @@ export default function ArchivesPage() {
     redirect("/404");
   }
 
-  const posts = getAllPosts().filter((p) => !p.data.draft);
+  const posts = getAllPosts().filter(p => !p.data.draft);
   const sortedPosts = getSortedPosts(posts);
 
   return (
@@ -42,13 +42,10 @@ export default function ArchivesPage() {
       <Breadcrumb />
       <main id="main-content" className="app-layout pb-4">
         <h1 className="text-2xl font-semibold sm:text-3xl">Archives</h1>
-        <p className="mt-2 mb-6 italic">
-          All the articles I&apos;ve archived.
-        </p>
+        <p className="mt-2 mb-6 italic">All the articles I&apos;ve archived.</p>
         {Object.entries(
-          getPostsByGroupCondition(
-            sortedPosts,
-            (post) => post.data.pubDatetime.getFullYear()
+          getPostsByGroupCondition(sortedPosts, post =>
+            post.data.pubDatetime.getFullYear()
           )
         )
           .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
@@ -59,12 +56,10 @@ export default function ArchivesPage() {
               {Object.entries(
                 getPostsByGroupCondition(
                   yearGroup,
-                  (post) => post.data.pubDatetime.getMonth() + 1
+                  post => post.data.pubDatetime.getMonth() + 1
                 )
               )
-                .sort(
-                  ([monthA], [monthB]) => Number(monthB) - Number(monthA)
-                )
+                .sort(([monthA], [monthB]) => Number(monthB) - Number(monthA))
                 .map(([month, monthGroup]) => (
                   <div key={month} className="flex flex-col sm:flex-row">
                     <div className="mt-6 min-w-36 text-lg sm:my-6">
@@ -84,7 +79,7 @@ export default function ArchivesPage() {
                               new Date(a.data.pubDatetime).getTime() / 1000
                             )
                         )
-                        .map((post) => (
+                        .map(post => (
                           <CardSimple key={post.id} post={post} />
                         ))}
                     </ul>

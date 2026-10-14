@@ -1,14 +1,17 @@
 import { SOCIALS } from "@/constants";
 import { IconGitHub } from "./Icons";
 
-const iconMap: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+const iconMap: Record<
+  string,
+  React.ComponentType<React.SVGProps<SVGSVGElement>>
+> = {
   GitHub: IconGitHub,
 };
 
 export default function Socials() {
   return (
     <div className="flex flex-wrap items-center gap-1">
-      {SOCIALS.map((social) => {
+      {SOCIALS.map(social => {
         const Icon = iconMap[social.name];
         return (
           <a

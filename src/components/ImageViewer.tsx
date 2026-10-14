@@ -63,7 +63,7 @@ export default function ImageViewer() {
     if (!stage) return;
     const cx = px ?? stage.clientWidth / 2;
     const cy = py ?? stage.clientHeight / 2;
-    setTransform((prev) => {
+    setTransform(prev => {
       const scale = clampScale(prev.scale * factor);
       const ratio = scale / prev.scale;
       return {
@@ -87,7 +87,7 @@ export default function ImageViewer() {
     if (!article) return;
 
     const images = Array.from(article.querySelectorAll("img")).filter(
-      (img) => !img.closest("a")
+      img => !img.closest("a")
     );
 
     const open = (img: HTMLImageElement) => {
@@ -101,7 +101,7 @@ export default function ImageViewer() {
       });
     };
 
-    const cleanups = images.map((img) => {
+    const cleanups = images.map(img => {
       img.classList.add("zoomable-image");
       img.tabIndex = 0;
       img.setAttribute("role", "button");
@@ -125,7 +125,7 @@ export default function ImageViewer() {
       };
     });
 
-    return () => cleanups.forEach((cleanup) => cleanup());
+    return () => cleanups.forEach(cleanup => cleanup());
   }, []);
 
   // Fit the image, lock page scroll, and handle keyboard shortcuts while open
@@ -202,7 +202,7 @@ export default function ImageViewer() {
       return;
     }
 
-    setTransform((prev) => ({
+    setTransform(prev => ({
       ...prev,
       x: prev.x + e.clientX - previous.x,
       y: prev.y + e.clientY - previous.y,

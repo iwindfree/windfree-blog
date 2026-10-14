@@ -23,8 +23,8 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllPosts().filter((p) => !p.data.draft);
-  return posts.map((post) => ({ slug: post.slug }));
+  const posts = getAllPosts().filter(p => !p.data.draft);
+  return posts.map(post => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -69,13 +69,13 @@ export default async function BlogPostPage({ params }: Props) {
   const sortedPosts = getSortedPosts(allPosts);
   const content = await renderMarkdown(post.body);
 
-  const allPostsList = sortedPosts.map((p) => ({
+  const allPostsList = sortedPosts.map(p => ({
     id: p.id,
     slug: p.slug,
     title: p.data.title,
   }));
 
-  const currentPostIndex = allPostsList.findIndex((a) => a.id === post.id);
+  const currentPostIndex = allPostsList.findIndex(a => a.id === post.id);
   const prevPost =
     currentPostIndex !== 0 ? allPostsList[currentPostIndex - 1] : null;
   const nextPost =
@@ -83,14 +83,8 @@ export default async function BlogPostPage({ params }: Props) {
       ? allPostsList[currentPostIndex + 1]
       : null;
 
-  const {
-    title,
-    pubDatetime,
-    modDatetime,
-    timezone,
-    tags,
-    category,
-  } = post.data;
+  const { title, pubDatetime, modDatetime, timezone, tags, category } =
+    post.data;
 
   return (
     <>
@@ -132,13 +126,8 @@ export default async function BlogPostPage({ params }: Props) {
         <hr className="my-8 border-dashed" />
 
         <ul className="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
-          {tags.map((tag) => (
-            <Tag
-              key={tag}
-              tag={slugifyStr(tag)}
-              tagName={tag}
-              size="sm"
-            />
+          {tags.map(tag => (
+            <Tag key={tag} tag={slugifyStr(tag)} tagName={tag} size="sm" />
           ))}
         </ul>
 
@@ -160,9 +149,7 @@ export default async function BlogPostPage({ params }: Props) {
               <IconChevronLeft className="inline-block flex-none rtl:rotate-180" />
               <div>
                 <span>Previous Post</span>
-                <div className="text-sm text-accent/85">
-                  {prevPost.title}
-                </div>
+                <div className="text-sm text-accent/85">{prevPost.title}</div>
               </div>
             </Link>
           )}
@@ -173,9 +160,7 @@ export default async function BlogPostPage({ params }: Props) {
             >
               <div>
                 <span>Next Post</span>
-                <div className="text-sm text-accent/85">
-                  {nextPost.title}
-                </div>
+                <div className="text-sm text-accent/85">{nextPost.title}</div>
               </div>
               <IconChevronRight className="inline-block flex-none rtl:rotate-180" />
             </Link>

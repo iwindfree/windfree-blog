@@ -35,7 +35,8 @@ function getMdFiles(dir: string): string[] {
 let cachedPosts: BlogPost[] | null = null;
 
 export function getAllPosts(): BlogPost[] {
-  if (cachedPosts) return cachedPosts;
+  // Re-read posts on every call in dev so edits show up without a restart
+  if (cachedPosts && process.env.NODE_ENV === "production") return cachedPosts;
 
   const blogDir = path.join(process.cwd(), BLOG_PATH);
   const files = getMdFiles(blogDir);

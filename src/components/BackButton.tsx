@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { IconChevronLeft } from "./Icons";
 import { SITE } from "@/config";
 
-export default function BackButton() {
-  const [backUrl, setBackUrl] = useState("/");
+// No external source to watch; the server snapshot keeps hydration consistent
+const subscribe = () => () => {};
 
-  useEffect(() => {
-    const stored = sessionStorage.getItem("backUrl");
-    if (stored) setBackUrl(stored);
-  }, []);
+export default function BackButton() {
+  const backUrl = useSyncExternalStore(
+    subscribe,
+    () => sessionStorage.getItem("backUrl") || "/",
+    () => "/"
+  );
 
   if (!SITE.showBackButton) return null;
 

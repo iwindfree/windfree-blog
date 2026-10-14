@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { SHARE_LINKS } from "@/constants";
 import {
   IconWhatsapp,
@@ -23,12 +23,15 @@ const iconMap: Record<
   Mail: IconMail,
 };
 
-export default function ShareLinks() {
-  const [url, setUrl] = useState("");
+// No external source to watch; the server snapshot keeps hydration consistent
+const subscribe = () => () => {};
 
-  useEffect(() => {
-    setUrl(window.location.href);
-  }, []);
+export default function ShareLinks() {
+  const url = useSyncExternalStore(
+    subscribe,
+    () => window.location.href,
+    () => ""
+  );
 
   if (SHARE_LINKS.length === 0) return null;
 
@@ -36,7 +39,7 @@ export default function ShareLinks() {
     <div className="flex flex-none flex-col items-center justify-center gap-1 md:items-start">
       <span className="italic">Share this post on:</span>
       <div className="text-center">
-        {SHARE_LINKS.map((social) => {
+        {SHARE_LINKS.map(social => {
           const Icon = iconMap[social.name];
           return (
             <a

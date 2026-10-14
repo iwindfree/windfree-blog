@@ -1,14 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { IconMoon, IconSunHigh } from "./Icons";
 
-export default function ThemeToggle() {
-  const [mounted, setMounted] = useState(false);
+// No external source to watch; the server snapshot keeps hydration consistent
+const subscribe = () => () => {};
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+export default function ThemeToggle() {
+  const mounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false
+  );
 
   const toggleTheme = () => {
     const html = document.documentElement;
@@ -20,15 +23,11 @@ export default function ThemeToggle() {
     // Update header/menu CSS variables
     html.style.setProperty(
       "--header-bg",
-      next === "dark"
-        ? "rgba(13,17,23,0.92)"
-        : "rgba(250,251,253,0.92)"
+      next === "dark" ? "rgba(13,17,23,0.92)" : "rgba(250,251,253,0.92)"
     );
     html.style.setProperty(
       "--menu-bg",
-      next === "dark"
-        ? "rgba(13,17,23,0.95)"
-        : "rgba(250,251,253,0.95)"
+      next === "dark" ? "rgba(13,17,23,0.95)" : "rgba(250,251,253,0.95)"
     );
 
     const body = document.body;

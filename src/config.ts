@@ -1,5 +1,5 @@
 export const SITE = {
-  website: "https://ws-blog.vercel.app/",
+  website: "https://windfree-blog.vercel.app/",
   author: "iwindfree",
   profile: "https://github.com/iwindfree",
   desc: "함께하는 프로그래밍과 IT 이야기",

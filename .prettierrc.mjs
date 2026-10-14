@@ -1,5 +1,5 @@
 /** @type {import("prettier").Config} */
-export default {
+const config = {
   arrowParens: "avoid",
   semi: true,
   tabWidth: 2,
@@ -9,14 +9,8 @@ export default {
   trailingComma: "es5",
   bracketSpacing: true,
   endOfLine: "lf",
-  plugins: ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
+  plugins: ["prettier-plugin-tailwindcss"],
   tailwindStylesheet: "./src/styles/global.css",
-  overrides: [
-    {
-      files: "*.astro",
-      options: {
-        parser: "astro",
-      },
-    },
-  ],
 };
+
+export default config;

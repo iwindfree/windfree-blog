@@ -6,9 +6,11 @@
 !/public
 !/.github
 !tsconfig.json
-!astro.config.ts
+!next.config.ts
 !.prettierrc.mjs
 !package.json
 !.prettierrc
-!eslint.config.js
+!eslint.config.mjs
 !README.md
+# Blog posts are content, not code
+/src/data/blog

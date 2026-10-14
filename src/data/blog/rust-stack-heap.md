@@ -21,12 +21,12 @@ Stack 은 개별 함수들에 의해서 생성된 **고정된 크기**의 변수
 아래 예시를 보면서 실제 프로그램 실행시에 스택이 어떻게 생성이 되고 소멸 되는지 알아보겠습니다.
 
 ```c
-FUCNCTION functionA() {
+FUNCTION functionA() {
     integer i = 10;
     call functionB(i)
 }
 
-FUCNCTION functionB(integer j) {
+FUNCTION functionB(integer j) {
     integer k = 20;
 }
 ```
@@ -50,12 +50,12 @@ Heap 은 스택과는 다르게 자동으로 관리되지 않은 프로세스 �
 아래 그림을 통해서 좀 더 자세히 살펴보겠습니다.
 
 ```c
-FUCNCTION functionA() {
+FUNCTION functionA() {
     integer i = 10;
     call functionB(i);
 }
 
-FUCNCTION functionB(integer j) {
+FUNCTION functionB(integer j) {
     POINTER k = ALLOCATE INTEGER 20;
 }
 ```
@@ -71,7 +71,7 @@ functionB 내용을 보면 힙메모리 영역에 공간을 할당하고 정수�
 그런데, 만일 functionB 내부에서 사용한 힙 메모리 영역을 해제하지 않고 종료해버리면 힙메모리상의 주소를 저장했던 스택 변수 또한 스택에서 사라지게 됩니다. 더 이상 힙메모리의 어느 주소를 사용하고 있는지 모르기 때문에 사용했던 힙메모리를 다시 해제할 수가 없게 됩니다. 가장 일반적인 "메모리 누수 (Memory Leak)" 현상입니다. 이 영역은 프로그램이 실행되는 동안 계속 메모리를 점유하게 되고 해당 프로그램이 종료되고 나서야 해제될 수 있습니다. 그래서 위 코드는 아래와 같이 해당 변수를 모두 사용한 다음에는 명시적으로 힙 메모리 영역을 해제하도록 수정되어야 합니다.
 
 ```c
-FUCNCTION functionB(integer j) {
+FUNCTION functionB(integer j) {
     POINTER k = ALLOCATE INTEGER 20;
     // use k variable...
     DEALLOCATE k;

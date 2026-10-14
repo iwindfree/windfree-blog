@@ -562,6 +562,15 @@ State는 run 하나가 실행되는 동안 노드들이 함께 쓰는 데이터�
 
 ```python
 # 참고: 의사코드
+InquiryState = {
+  user_message: { type: text, pii: true },
+  action:       { type: one_of(call_tool, answer, refund) },   # decide가 고른 다음 행동
+  tool_call:    { type: object },                             # decide가 고른 도구와 입력
+  tool_results: { type: list, reducer: append },              # act가 붙이는 도구 결과
+  order_found:  { type: boolean },
+  approved:     { type: boolean }
+}
+
 wf = Workflow(name = "order_inquiry", state = InquiryState)
 
 # 노드
@@ -591,6 +600,14 @@ wf.addConditionalEdge("approve_refund", on = "approved", routes = {
 ```
 
 ![노드 선언 예시](/images/blog/ai-agent-workflow-framework/diagrams/3.4.2-node-declarations.svg)
+
+`decide`에서 나가는 조건부 에지는 State의 `action` 값으로 다음 노드를 고릅니다.
+
+- `decide`의 모델이 다음 행동을 고르면, `decide`는 그 값을 `action`에 적고 끝납니다. 다음 노드는 노드가 아니라 이 에지가 정합니다.
+- 실행 루프는 `action`이 `call_tool`이면 `act`로, `answer`이면 `reply`로, `refund`이면 `check_order`로 보냅니다.
+- `InquiryState`가 `action`의 값을 세 가지로 선언했으므로, compile은 세 값이 모두 `routes`에 있는지 검사합니다. 선택지를 늘리고 `routes`에 넣지 않으면 compile이 거부합니다(3.8.2절).
+
+나머지 노드의 선언은 다음과 같이 쓰입니다.
 
 - `decide`의 모델에게는 `act`의 도구(`order.get`, `shipment.track`)가 목록으로 보이고, 모델이 고른 도구는 `act`가 실행합니다. `act`가 끝나면 `decide`로 돌아가 다시 판단하며, 5번을 넘으면 `handoff`로 갑니다.
 - 환불 요청이면 `check_order`가 `order.get`으로 주문을 찾습니다. 이 노드가 실패하면 `on_error`에 따라 `handoff`로 갑니다.

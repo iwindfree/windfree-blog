@@ -558,19 +558,43 @@ State는 run 하나가 실행되는 동안 노드들이 함께 쓰는 데이터�
 | 실행 노드 표시(`model_chooses`) | 실행 노드에 붙인다. 이 노드는 부를 도구를 코드에서 정하지 않고, 결정 노드의 모델이 고른 도구를 실행한다는 뜻이다 | 정적 검증. 이 표시가 있는 노드의 `uses`에는 되돌릴 수 없는 도구를 넣을 수 없다(5.3절) |
 | 실패 시 갈 노드(`on_error`) | 노드가 실패했을 때 이어서 실행할 노드. 선언하지 않으면 run이 실패로 끝난다 | 오류 처리(4.5절) |
 
-예를 들어 다음과 같이 선언합니다.
+예를 들어 고객 문의를 받아 조회, 답변, 환불 가운데 하나로 처리하는 workflow는 다음과 같이 정의합니다. 노드 함수의 본문은 생략합니다.
 
 ```python
 # 참고: 의사코드
-wf.addNode("check_order",    checkOrder,    uses = ["order.get"], on_error = "handoff")
-wf.addNode("approve_refund", approveRefund, waits = "approval")
+wf = Workflow(name = "order_inquiry", state = InquiryState)
+
+# 노드
 wf.addNode("decide",         decide,        tools_for = ["act"])
 wf.addNode("act",            act,           uses = ["order.get", "shipment.track"], model_chooses = true)
+wf.addNode("reply",          reply)
+wf.addNode("check_order",    checkOrder,    uses = ["order.get"], on_error = "handoff")
+wf.addNode("approve_refund", approveRefund, waits = "approval")
+wf.addNode("execute_refund", executeRefund, uses = ["payment.refund"])   # 되돌릴 수 없는 도구
+wf.addNode("handoff",        handoff)
+
+# 에지
+wf.setStart("decide")
+wf.addConditionalEdge("decide", on = "action", routes = {
+    call_tool: "act",
+    answer:    "reply",
+    refund:    "check_order" })
+wf.addConditionalEdge("act", on = "action", routes = {                  # 도구를 실행한 뒤에는 늘 decide로 돌아간다
+    else: backTo("decide", max_passes = 5, on_exceeded = "handoff") })
+wf.addConditionalEdge("check_order", on = "order_found", routes = {
+    true:  "approve_refund",
+    false: "handoff" })
+wf.addConditionalEdge("approve_refund", on = "approved", routes = {
+    true:  "execute_refund",
+    false: "handoff" })
+# reply, execute_refund, handoff에서 나가는 에지가 없으므로 거기서 끝난다
 ```
 
-- `check_order`는 `order.get`만 부를 수 있고, 실패하면 `handoff`로 갑니다.
-- `approve_refund`는 승인 응답만 기다립니다.
-- `decide`의 모델에게는 `act`의 도구(`order.get`, `shipment.track`)가 목록으로 보이고, 모델이 고른 도구는 `act`가 실행합니다.
+![노드 선언 예시](/images/blog/ai-agent-workflow-framework/diagrams/3.4.2-node-declarations.svg)
+
+- `decide`의 모델에게는 `act`의 도구(`order.get`, `shipment.track`)가 목록으로 보이고, 모델이 고른 도구는 `act`가 실행합니다. `act`가 끝나면 `decide`로 돌아가 다시 판단하며, 5번을 넘으면 `handoff`로 갑니다.
+- 환불 요청이면 `check_order`가 `order.get`으로 주문을 찾습니다. 이 노드가 실패하면 `on_error`에 따라 `handoff`로 갑니다.
+- `approve_refund`는 승인 응답만 기다립니다. 되돌릴 수 없는 `payment.refund`는 이 승인 노드를 지나야만 실행되며, 결정 노드의 모델이 직접 고를 수 없습니다.
 
 노드 함수에는 다음 제약이 있습니다.
 

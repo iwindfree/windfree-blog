@@ -10,6 +10,8 @@ description: "AI Agent의 동작을 workflow로 정의하고 실행하는 프레
 
 > 이 문서는 AI Agent의 동작을 workflow로 정의하고 실행하는 프레임워크를 **만드는 쪽의 설계**를 다룹니다. 어떤 요구사항이 있는지, 그 요구사항을 만족하려면 어떤 구성 요소가 필요한지, 각 구성 요소가 어떻게 동작해야 하는지, 무엇을 고려해야 하는지를 차례로 설명합니다. 설계의 중심은 workflow를 정의하는 모델(3장)과 workflow를 실행하는 엔진(4장)입니다. 의사코드는 동작을 이해하기 위한 참고용이며, 특정 언어나 구현을 정하지 않습니다.
 
+**요약 슬라이드**: 이 문서의 내용을 69장으로 정리한 발표 자료입니다. [AI_Agent_Workflow_Framework_Summary.pptx](/files/ai-agent-workflow-framework/AI_Agent_Workflow_Framework_Summary.pptx) (PowerPoint, 3.4MB)
+
 ---
 
 ## 0. 개요

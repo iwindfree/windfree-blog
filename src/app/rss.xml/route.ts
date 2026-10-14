@@ -3,6 +3,9 @@ import { getAllPosts } from "@/lib/posts";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { SITE } from "@/config";
 
+// Prerender at build time: post files are not deployed with the server
+export const dynamic = "force-static";
+
 export async function GET() {
   const posts = getAllPosts();
   const sortedPosts = getSortedPosts(posts);

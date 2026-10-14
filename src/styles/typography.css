@@ -3,7 +3,8 @@
 @layer base {
   /* ===== Override default Tailwind Typography styles ===== */
   .app-prose {
-    @apply prose;
+    /* Break Korean text only at spaces; still wrap long unbroken tokens */
+    @apply prose wrap-break-word break-keep;
 
     h1,
     h2,
@@ -67,7 +68,7 @@
       /* Typography zeroes first/last cell padding in a higher layer, so force it */
       th,
       td {
-        @apply border border-border px-3! py-2! align-top break-keep;
+        @apply border border-border px-3! py-2! align-top;
       }
 
       th {

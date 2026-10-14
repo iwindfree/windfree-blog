@@ -32,7 +32,7 @@ export default function AboutPage() {
       <main id="main-content" className="mx-auto w-full max-w-app px-4 py-12">
         <section
           id="about"
-          className="app-prose mb-28 max-w-app [word-break:keep-all] prose-img:rounded-xl prose-img:border-0 prose-img:shadow-[0_2px_16px_rgba(0,0,0,0.08)]"
+          className="app-prose mb-28 max-w-app prose-img:rounded-xl prose-img:border-0 prose-img:shadow-[0_2px_16px_rgba(0,0,0,0.08)]"
         >
           <div className="mx-auto mt-4 mb-12 flex flex-col items-center text-center">
             <img

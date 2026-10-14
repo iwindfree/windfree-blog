@@ -64,13 +64,14 @@
       /* Scroll wide tables inside themselves instead of widening the page */
       @apply max-sm:block max-sm:overflow-x-auto;
 
+      /* Typography zeroes first/last cell padding in a higher layer, so force it */
       th,
       td {
-        @apply border border-border p-2;
+        @apply border border-border px-3! py-2! align-top break-keep;
       }
 
       th {
-        @apply py-1.5;
+        @apply bg-muted text-start font-semibold;
       }
 
       code {

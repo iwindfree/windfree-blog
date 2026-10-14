@@ -654,12 +654,45 @@ wf.addConditionalEdge("approve_refund", on = "approved", routes = {
 | 종류 | 뜻 | 정의 모델이 담아야 하는 것 |
 |---|---|---|
 | 고정 에지 | 항상 정해진 노드로 간다 | 출발 노드, 도착 노드 |
-| 조건부 에지 | State를 보고 다음 노드를 고른다 | 갈 수 있는 노드의 전체 목록. 모든 경우를 다루어야 한다 |
-| 표 형태의 조건부 에지 | State의 키 하나의 값마다 갈 노드를 표로 정한다 | 키, 값과 노드의 표, 그 밖의 값이 갈 노드 |
+| 조건부 에지 | 에지 함수가 State를 보고 다음 노드를 고른다 | 갈 수 있는 노드의 전체 목록. 모든 경우를 다루어야 한다 |
+| 값 매핑 조건부 에지 | State의 키 하나의 값마다 갈 노드를 정해 둔다 | 키, 값과 노드의 대응(`routes`), 그 밖의 값이 갈 노드 |
 | 병렬 에지 | 여러 노드를 동시에 실행한다 | 병렬 묶음 이름, 출발 노드, 동시에 실행할 노드 목록, 일부가 실패했을 때의 처리 |
 | 항목별 병렬 에지 | 실행할 때 정해지는 목록의 항목마다 같은 노드를 동시에 실행한다 | 항목 목록을 담은 State 키, 실행할 노드 |
 | 합류 에지 | 동시에 실행한 노드가 모두 끝나면 결과를 합쳐 다음 노드로 간다 | 병렬 묶음 이름, 기다릴 노드 목록, 다음 노드 |
 | 되돌아가는 에지 | 앞의 노드로 돌아가 반복한다 | 도착 노드, 최대 통과 횟수, 상한을 넘으면 갈 노드 |
+
+정의 API로는 다음과 같이 적습니다(부록 A.1). 종류마다 예를 하나씩 들었습니다.
+
+```python
+# 참고: 의사코드
+
+# 고정 에지: 항상 check_order로 간다
+wf.addEdge("ask_customer", "check_order")
+
+# 조건부 에지: 에지 함수가 다음 노드를 고른다
+# compile은 함수 본문을 읽지 않으므로, 갈 수 있는 노드를 targets로 선언한다
+wf.addConditionalEdge("classify", routeByIntent, targets = ["check_order", "handoff"])
+
+# 값 매핑 조건부 에지: approved 값마다 갈 노드를 정한다
+# compile이 approved의 모든 값(true, false)을 다뤘는지 검사한다
+wf.addConditionalEdge("approve_refund", on = "approved", routes = {
+    true:  "execute_refund",
+    false: "handoff" })
+
+# 병렬 에지와 합류 에지: 같은 group 이름으로 짝짓는다
+wf.addParallelEdge("order_check", from = "verify_request", to = ["get_order", "assess_risk"],
+                   on_partial_failure = "fail")
+wf.addJoinEdge("order_check", from = ["get_order", "assess_risk"], to = "calc_refund")
+
+# 항목별 병렬 에지: State의 orders 목록 항목마다 track_shipment를 동시에 실행한다
+wf.addMapEdge("load_orders", over = "orders", node = "track_shipment",
+              max_concurrency = 5, on_item_failure = "merge_succeeded")
+
+# 되돌아가는 에지: 값 매핑 조건부 에지의 routes 안에 backTo로 쓴다
+wf.addConditionalEdge("check_order", on = "order_found", routes = {
+    true:  "approve_refund",
+    false: backTo("ask_customer", max_passes = 2, on_exceeded = "handoff") })
+```
 
 병렬 에지와 항목별 병렬 에지는 동시에 실행할 것이 언제 정해지는지가 다릅니다.
 
@@ -678,13 +711,23 @@ wf.addConditionalEdge("approve_refund", on = "approved", routes = {
 조건부 에지에는 규칙이 두 가지 있습니다.
 
 - **모든 경우를 다루어야 합니다.** 어느 조건에도 맞지 않을 때 갈 곳이 없으면 compile이 거부합니다.
-- **모델의 출력으로 분기할 때는 정해진 값으로만 분기합니다.** 모델이 쓴 자유로운 문장에 어떤 단어가 들어 있는지로 분기하면, 같은 입력도 표현에 따라 다른 길로 갑니다. 그래서 모델의 출력 형식을 정해진 값 가운데 하나(`one_of`)로 강제하고, 그 값으로 분기하게 합니다. 표 형태의 조건부 에지를 쓰면 compile이 그 키가 가질 수 있는 모든 값이 표에 있는지까지 확인할 수 있습니다(3.8절).
+- **모델의 출력으로 분기할 때는 정해진 값으로만 분기합니다.** 모델이 쓴 자유로운 문장에 어떤 단어가 들어 있는지로 분기하면, 같은 입력도 표현에 따라 다른 길로 갑니다. 그래서 모델의 출력 형식을 정해진 값 가운데 하나(`one_of`)로 강제하고, 그 값으로 분기하게 합니다. 값 매핑 조건부 에지를 쓰면 compile이 그 키가 가질 수 있는 모든 값이 `routes`에 있는지까지 확인할 수 있습니다(3.8절).
 
 #### 3.5.3 반복과 그 상한
 
 반복은 앞의 노드로 돌아가는 에지로 표현합니다. 주문 환불 workflow에서 고객이 알려 준 주문 번호로 주문을 찾지 못하는 경우를 예로 들겠습니다.
 
 ![되돌아가는 에지와 상한](/images/blog/ai-agent-workflow-framework/diagrams/3.5.3-back-edge.svg)
+
+그림의 에지를 정의 API로 적으면 다음과 같습니다. 주문 확인은 `check_order`, 고객에게 되묻기는 `ask_customer`, 환불액 계산은 `calc_refund`, 상담원 이관은 `handoff`입니다.
+
+```python
+# 참고: 의사코드
+wf.addConditionalEdge("check_order", on = "order_found", routes = {
+    true:  "calc_refund",
+    false: backTo("ask_customer", max_passes = 2, on_exceeded = "handoff") })   # 점선
+wf.addEdge("ask_customer", "check_order")
+```
 
 점선이 되돌아가는 에지입니다. 주문을 찾지 못하면 고객에게 주문 번호를 다시 묻고, 받은 번호로 주문 확인을 다시 실행합니다. 이 에지에는 최대 통과 횟수 2가 붙어 있으므로, 실행은 다음과 같이 흘러갑니다.
 
@@ -802,7 +845,7 @@ workflow를 실행하기 전에 구조 오류와 통제 규칙 위반을 찾아�
 |---|---|---|
 | 시작 노드에서 모든 노드에 도달할 수 있다 | 연결되지 않은 노드는 실수다 | 시작 노드에서 에지를 따라 탐색해, 방문하지 못한 노드를 찾는다 |
 | 조건부 에지가 갈 수 있는 모든 노드가 존재한다 | 없는 노드로 가면 실행 중에 멈춘다 | 에지 함수의 반환문에서 모은 이름, 또는 선언한 목록을 노드 목록과 대조한다 |
-| 표 형태의 조건부 에지가 키의 모든 값을 다룬다 | 다루지 않는 값이 나오면 갈 곳이 없다 | State 형식에서 그 키가 가질 수 있는 값의 집합을 꺼내, 표에 없는 값이 있으면 "그 밖의 값"의 노드가 있는지 본다 |
+| 값 매핑 조건부 에지가 키의 모든 값을 다룬다 | 다루지 않는 값이 나오면 갈 곳이 없다 | State 형식에서 그 키가 가질 수 있는 값의 집합을 꺼내, `routes`에 없는 값이 있으면 "그 밖의 값"의 노드가 있는지 본다 |
 | 상한이 없는 반복이 없다 | 무한 반복을 막는다 | 되돌아가는 에지를 모두 뺀 나머지 그래프에 순환이 있는지 본다. 위상 정렬이 실패하면 상한 없는 순환이 남아 있는 것이다 |
 | 되돌아가는 에지마다 최대 통과 횟수와 상한 초과 시 갈 노드가 있다 | 상한이 없으면 반복이 끝나지 않는다 | 에지 목록을 확인한다 |
 | 되돌릴 수 없는 도구를 쓰는 노드로 가는 모든 경로에 확인 노드가 있다 | 사람의 확인 없이 되돌릴 수 없는 작업이 실행되면 안 된다(NFR-03) | 아래 참고 |
@@ -2335,11 +2378,11 @@ wf.addNode(name, fn,
 wf.setStart(name)
 wf.addEdge(from, to)                                             # 고정 에지
 wf.addConditionalEdge(from, fn, targets = [노드, ...])                    # 에지 함수가 다음 노드를 고른다
-wf.addConditionalEdge(from, on = State 키, routes = { 값: 노드, ..., else: 노드 })   # 표 형태
+wf.addConditionalEdge(from, on = State 키, routes = { 값: 노드, ..., else: 노드 })   # 값 매핑
 backTo(to, max_passes, on_exceeded)                              # routes 안에서 되돌아가는 에지
 wf.addParallelEdge(group, from, to = [노드, ...], on_partial_failure = fail | merge_succeeded)
 wf.addJoinEdge(group, from = [노드, ...], to)
-wf.addMapEdge(from, over = State의 목록 키, node, max_concurrency, on_item_failure)
+wf.addMapEdge(from, over = State의 목록 키, node, max_concurrency, on_item_failure = fail | merge_succeeded)
 wf.addSubworkflow(name, workflow, version, input = { ... }, output = { ... })
 wf.use(middleware, at = graph | node | model_call | tool_call)
 
@@ -2350,7 +2393,7 @@ spec = wf.compile(version, budget = { max_steps, max_tokens, max_cost, max_durat
 | 연산 | 설명 | 설명하는 곳 |
 |---|---|---|
 | `addNode` | 노드와 선언을 등록한다. compile은 함수 본문을 읽지 않고 선언만 본다 | 3.4.2절 |
-| `addConditionalEdge` | 에지 함수로 다음 노드를 고르거나(갈 수 있는 노드 목록을 함께 선언), State 키의 값마다 갈 노드를 표로 정한다. 모든 경우를 다루어야 한다 | 3.2절, 3.5.2절 |
+| `addConditionalEdge` | 에지 함수로 다음 노드를 고르거나(갈 수 있는 노드 목록을 함께 선언), State 키의 값마다 갈 노드를 정한다(값 매핑). 모든 경우를 다루어야 한다 | 3.2절, 3.5.2절 |
 | `backTo` | 되돌아가는 에지. 최대 통과 횟수와 상한 초과 시 갈 노드가 필수다 | 3.5.3절 |
 | `addParallelEdge`, `addJoinEdge` | 같은 `group` 이름으로 짝지어 병렬 실행과 합류를 정한다 | 4.4.1절 |
 | `addMapEdge` | 실행할 때 정해지는 목록의 항목마다 같은 노드를 동시에 실행한다 | 3.5.2절 |

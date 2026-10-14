@@ -112,7 +112,7 @@ MAUI 를 사용하여 개발을 진행할 때 플랫폼별로 다른 디자인 �
 </ContentPage>
 ```
 
-```
+```xml
 BackgroundColor="{OnPlatform Android=Green, iOS=Blue}"
 ```
 

@@ -70,7 +70,7 @@ namespace MyFirstMauiApp.Resources
 
 위의 소스를 보면 ContentPage 의 namespace 선언 부분에 아래의 내용이 추가되었습니다.
 
-```
+```xml
     xmlns:resources="clr-namespace:MyFirstMauiApp.Resources"
 ```
 
@@ -78,7 +78,7 @@ namespace MyFirstMauiApp.Resources
 
 그리고, Label 선언부에서 TextColor 를 리소스파일을 이용해서 정의한 것을 확인할 수 있습니다.
 
-```
+```xml
  <Label
      SemanticProperties.HeadingLevel="Level1"
      Style="{StaticResource Headline}"

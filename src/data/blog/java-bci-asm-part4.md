@@ -313,7 +313,7 @@ public class ClassTransformer implements ClassFileTransformer {
 
 ### MANIFEST.MF
 
-```
+```properties
 Manifest-Version: 1.0
 Premain-Class: testapp1.agent.JavaAgent
 Can-Redefine-Classes: True

@@ -88,13 +88,13 @@ PeopleViewModel 클래스는 단순하게 People 리스트를 생성해서 Obser
 
 BindingSample.ViewModels 라는  네임스페이스를 viewmodel 이라는 접두사로 참조하기 위하여 아래와 같이 네임스페이스를 정의하였습니다.
 
-```
+```xml
    xmlns:viewmodel="clr-namespace:BindingSample.ViewModels"
 ```
 
 실제 View 에서 사용할 BindingContext 를 정의해보겠습니다. **BindingContext **는 XAML에서 데이터 바인딩의 소스를 설정하는 속성입니다. 이를 통해 **UI 요소가 데이터 소스와 연결**되어 데이터 바인딩을 수행할 수 있습니다. BindingContext는 주로 페이지, 레이아웃, 또는 개별 컨트롤에 설정됩니다. 데이터바인딩을 위하여 꼭 BindingContext 를 사용할 필요는 없지만, 가장 일반적으로 사용되는 방식입니다.
 
-```
+```xml
 <ContentPage.BindingContext>
     <viewmodel:PeopleViewModel />
 </ContentPage.BindingContext>

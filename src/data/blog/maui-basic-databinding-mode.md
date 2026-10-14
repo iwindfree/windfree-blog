@@ -20,7 +20,7 @@ description: "이번에는 데이터 바인딩 모드에 대해서 간단하게 
 - **설명**: 데이터가 **ViewModel(소스)**에서 **View(UI)**로만 전달됩니다. UI 요소는 데이터 소스를 관찰하여 변경 사항을 반영하지만, 반대로 UI에서 변경된 값이 ViewModel로 전달되지는 않습니다.
 - **사용 예시**: Label에 데이터를 표시할 때.
 
-```
+```xml
 <Label Text="{Binding UserName, Mode=OneWay}" />
 ```
 
@@ -30,7 +30,7 @@ description: "이번에는 데이터 바인딩 모드에 대해서 간단하게 
 - **설명**: 데이터가 **양방향**으로 흐릅니다. ViewModel의 변경 사항이 View에 반영되고, 사용자가 UI에서 값을 수정하면 그 값이 다시 ViewModel로 전달됩니다.
 - **사용 예시**: 사용자가 직접 값을 입력하거나 수정할 수 있는 UI 요소에서 사용 (예: Entry, Slider 등).
 
-```
+```xml
 <Entry Text="{Binding UserName, Mode=TwoWay}" />
 ```
 
@@ -40,7 +40,7 @@ description: "이번에는 데이터 바인딩 모드에 대해서 간단하게 
 - **설명**: 데이터가 **View(UI) **에서 **ViewModel(소스) **로만 전달됩니다. 주로 UI에서 발생한 변경 사항을 ViewModel에 전달하고 싶을 때 사용됩니다. 반대로 ViewModel의 값이 UI에 반영되지는 않습니다.
 - **사용 예시**: ListView에서 선택된 항목을 ViewModel에 전달할 때 사용.
 
-```
+```xml
 <ListView SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" />
 ```
 
@@ -50,7 +50,7 @@ description: "이번에는 데이터 바인딩 모드에 대해서 간단하게 
 - **설명**: 바인딩이 설정된 후, 데이터가 **초기**에만 ViewModel에서 View로 전달됩니다. 이후 ViewModel에서 값이 변경되더라도 UI에는 반영되지 않습니다. 주로 변경되지 않을 초기 데이터 로딩 시 사용됩니다.
 - **사용 예시**: 초기화 후 값이 변하지 않는 경우 (예: 초기 화면 로드 시 한 번만 데이터를 표시).
 
-```
+```xml
 <Label Text="{Binding UserName, Mode=OneTime}" />
 ```
 

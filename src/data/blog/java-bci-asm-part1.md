@@ -52,7 +52,7 @@ java -javaagent:/path/to/agent.jar MyTest
 
 **1단계 — Agent 로딩**: JVM 이 `agent.jar` 를 먼저 로딩합니다. 이 JAR 안의 `MANIFEST.MF` 파일에 `Premain-Class` 항목이 정의되어 있어야 합니다. 예를 들면 다음과 같습니다:
 
-```
+```properties
 Premain-Class: com.example.MyAgent
 ```
 

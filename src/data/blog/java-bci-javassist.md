@@ -36,7 +36,7 @@ public static void premain(String args, Instrumentation inst)
 
 그리고 manifest 파일에 아래와 같은 항목을 적어준다:
 
-```
+```properties
 Premain-Class: javaagenttest.MyAgent
 ```
 
@@ -76,7 +76,7 @@ public class MyAgent {
 
 ### MANIFEST.MF
 
-```
+```properties
 Manifest-Version: 1.0
 Created-By: 1.6.0_33-b03 (Sun Microsystems Inc.)
 Premain-Class: javaagent.MyAgent

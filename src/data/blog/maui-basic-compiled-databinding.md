@@ -74,7 +74,7 @@ description: "이번에는 Compiled Binding 에 대해서 알아보도록 하겠
 
 이전 소스에 정확히 한줄만 더 추가하였습니다.
 
-```
+```xml
 x:DataType="viewmodel:PeopleViewModel"
 ```
 
@@ -99,7 +99,7 @@ DataTemplate에서 컴파일된 바인딩을 사용할 때는 템플릿의 데�
 
 DataTemple 태그안에 x:DataType 을 선언한 것을 확인할 수 있습니다. model 을 네임스페이스 접두어로 사용하기 위해서 아래 코드도 추가되어야 합니다.
 
-```
+```xml
 xmlns:model="clr-namespace:BindingSample.Models"
 ```
 

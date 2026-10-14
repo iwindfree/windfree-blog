@@ -42,7 +42,7 @@ AVD (Android Virtual Device) 를 생성하거나 관리를 편하게 하기 위�
 
 Mac 에서 현재 실행되고 있는 adb server 를 종료한다.
 
-```
+```bash
 cd /Users/<username>/Library/Android/sdk/platform-tools
 adb kill-server
 ```
@@ -51,7 +51,7 @@ Mac에서 실행 중인 Android 에뮬레이터에 Windows 가상 머신(VM)에�
 
 현재 동작하고 있는 Android emulator 를 확인하려면 아래 명령을 사용한다.
 
-```
+```bash
 ./adb devices
 ```
 
@@ -85,7 +85,7 @@ Mac 에서 해야 할 일은 이것이 전부다. 이제 Windows 에서 Android 
 
 ### 터널링 설정하기
 
-```
+```bash
 ssh -L localhost:15555:127.0.0.1:5555 mac-user@ip-address-of-the-mac
 ```
 
@@ -102,7 +102,7 @@ ssh -L localhost:15555:127.0.0.1:5555 mac-username@ip-address-of-the-mac는 Wind
 
 터널링이 실행되었으면, Windows 에 설치된 adb 명령어를 사용하여 MAC 에 있는 Android Emulator 에 접속한다. 참고로 Windows 환경에서 기본으로 설치되는 android sdk 경로는 "C:\Program Files (x86)\Android\android-sdk" 이며, adb 는 해당 경로 하위의 platform-tools 폴더에 위치한다.
 
-```
+```bash
 adb connect localhost:15555
 ```
 

@@ -56,7 +56,7 @@ description: "일반적으로 어플리케이션은 여러개의 페이지로 �
 
 기존에 설정되어 있던 FlyoutBehavior 속성을 "Flyout" 으로 변경하고 추가할 페이지를 ShellContent 태그를 이용하여 추가하면 됩니다.
 
-```
+```xml
     Shell.FlyoutBehavior="Flyout"
 ```
 

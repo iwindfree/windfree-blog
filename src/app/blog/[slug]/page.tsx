@@ -14,6 +14,7 @@ import ShareLinks from "@/components/ShareLinks";
 import BackToTopButton from "@/components/BackToTopButton";
 import SeriesNavigation from "@/components/SeriesNavigation";
 import PostDetailClient from "@/components/PostDetailClient";
+import ImageViewer from "@/components/ImageViewer";
 import { IconChevronLeft, IconChevronRight } from "@/components/Icons";
 import { SITE } from "@/config";
 
@@ -183,6 +184,7 @@ export default async function BlogPostPage({ params }: Props) {
       </main>
       <Footer />
       <PostDetailClient />
+      <ImageViewer />
     </>
   );
 }

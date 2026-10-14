@@ -47,11 +47,23 @@
       @apply mx-auto border border-border;
     }
 
+    /* Local SVG diagrams have transparent backgrounds and dark strokes */
+    img[src^="/images/"][src$=".svg"] {
+      @apply rounded-md bg-white p-3;
+    }
+
+    img.zoomable-image {
+      @apply cursor-zoom-in transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+    }
+
     figcaption {
       @apply opacity-75;
     }
 
     table {
+      /* Scroll wide tables inside themselves instead of widening the page */
+      @apply max-sm:block max-sm:overflow-x-auto;
+
       th,
       td {
         @apply border border-border p-2;

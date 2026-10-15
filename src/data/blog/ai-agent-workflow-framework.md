@@ -864,6 +864,32 @@ wf.addConditionalEdge("approve_refund", on = "approved", routes = {
 - **실행은 별도의 run입니다.** 하위 workflow는 상위 run에 딸린 별도의 run으로 실행되며, 자기 체크포인트를 따로 저장합니다(4.4절).
 - **중첩 깊이를 제한합니다.** 하위 workflow 안의 하위 workflow는 3단계까지만 허용합니다. 단계마다 run과 체크포인트가 늘어나기 때문입니다.
 
+예를 들어 고객 상담 workflow 안에 주문 환불 workflow를 노드 하나로 넣으면 다음과 같습니다.
+
+```python
+# 참고: 의사코드
+wf = Workflow(name = "customer_support", state = SupportState)
+
+wf.addNode("classify", classify)
+wf.addSubworkflow("refund", workflow = "order_refund", version = "1.2.0",
+    input  = { user_message: "user_message", order_id: "order_id" },   # 하위 키: 상위 키
+    output = { refund_result: "refund_result" })                        # 상위 키: 하위 키
+wf.addNode("reply",   reply)
+wf.addNode("handoff", handoff)
+
+wf.setStart("classify")
+wf.addConditionalEdge("classify", on = "intent", routes = {
+    refund:  "refund",
+    inquiry: "reply",
+    else:    "handoff" })
+wf.addEdge("refund", "reply")
+```
+
+- `refund`는 다른 노드처럼 에지로 잇지만, 실행되면 `order_refund` 1.2.0이 상위 run에 딸린 별도의 run으로 실행됩니다(4.4.2절).
+- 하위 workflow는 `input`으로 넘긴 두 값만 받습니다. 상위의 대화 기록이나 다른 State는 볼 수 없습니다.
+- 하위 workflow가 끝나면 `output`에 적은 값만 상위 State에 반영됩니다. 하위 workflow가 승인을 기다리며 멈추면 상위 run도 함께 멈추고, 응답은 상위 run으로 보냅니다(4.4.2절).
+- `order_refund`가 새 버전을 내도, 상위를 다시 compile하기 전까지는 1.2.0을 씁니다.
+
 #### 3.7.3 설계 결정과 대안
 
 | 대안 | 설명 | 택하지 않은 이유 |
@@ -2429,7 +2455,7 @@ backTo(to, max_passes, on_exceeded)                              # routes 안에
 wf.addParallelEdge(group, from, to = [노드, ...], on_partial_failure = fail | merge_succeeded)
 wf.addJoinEdge(group, from = [노드, ...], to)
 wf.addMapEdge(from, over = State의 목록 키, node, max_concurrency, on_item_failure = fail | merge_succeeded)
-wf.addSubworkflow(name, workflow, version, input = { ... }, output = { ... })
+wf.addSubworkflow(name, workflow, version, input = { 하위 키: 상위 키 }, output = { 상위 키: 하위 키 })
 wf.use(middleware, at = graph | node | model_call | tool_call)
 
 spec = wf.compile(version, budget = { max_steps, max_tokens, max_cost, max_duration,

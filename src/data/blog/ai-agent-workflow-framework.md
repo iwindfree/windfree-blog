@@ -2557,7 +2557,7 @@ run 색인: run마다 한 행
 | workflow(코드, 프롬프트, 에지, 예산), 노드형 미들웨어 | 아니다. 시작한 버전으로 끝까지 간다(3.9.4절) |
 | 도구의 입력 형식 | 아니다. compile할 때의 버전을 쓴다 |
 | 플랫폼의 끼워넣기형 미들웨어 묶음 | 그렇다. 새 마스킹 규칙은 며칠째 승인을 기다리던 run에도 바로 적용된다 |
-| Agent 개발자의 미들웨어(`wf.use`) | 아니다. workflow 정의 코드에 들어 있으므로 workflow 버전을 따른다 |
+| Agent 개발자의 미들웨어(`wf.addMiddleware`) | 아니다. workflow 정의 코드에 들어 있으므로 workflow 버전을 따른다 |
 | 도구의 통제 메타데이터(등급, 권한, 사용 중지) | 그렇다 |
 | 모델 별칭의 대응과 선택 규칙 | 그렇다. 다음 호출부터 |
 
@@ -2634,7 +2634,7 @@ wf.addParallelEdge(group, from, to = [노드, ...], on_partial_failure = fail | 
 wf.addJoinEdge(group, from = [노드, ...], to)
 wf.addMapEdge(from, over = State의 목록 키, node, max_concurrency, on_item_failure = fail | merge_succeeded)
 wf.addSubworkflow(name, workflow, version, input = { 하위 키: 상위 키 }, output = { 상위 키: 하위 키 })
-wf.use(middleware, at = graph | node | model_call | tool_call)
+wf.addMiddleware(middleware, at = graph | node | model_call | tool_call)
 
 spec = wf.compile(version, budget = { max_steps, max_tokens, max_cost, max_duration,
                                        on_exceeded: 노드 })          # 예산을 넘으면 갈 노드
@@ -2648,7 +2648,7 @@ spec = wf.compile(version, budget = { max_steps, max_tokens, max_cost, max_durat
 | `addParallelEdge`, `addJoinEdge` | 같은 `group` 이름으로 짝지어 병렬 실행과 합류를 정한다 | 4.4.1절 |
 | `addMapEdge` | 실행할 때 정해지는 목록의 항목마다 같은 노드를 동시에 실행한다 | 3.5.2절 |
 | `addSubworkflow` | 다른 workflow를 고정한 버전으로 노드 하나처럼 넣는다 | 3.7절 |
-| `use` | Agent 개발자의 미들웨어를 지점에 더한다 | 5.4.5절 |
+| `addMiddleware` | Agent 개발자의 미들웨어를 지점에 더한다 | 5.4.5절 |
 | `compile` | 정적 검증을 하고 workflow 명세를 만들어 레지스트리에 저장한다. 하나라도 어기면 명세가 만들어지지 않는다. 예산의 `on_exceeded`가 없으면 예산을 넘은 run은 실패한다 | 3.8절, 3.9절 |
 
 #### A.1.2 도구 등록
@@ -2729,7 +2729,7 @@ function edgeFn(state) -> 노드 이름  # targets에 선언한 이름 가운데
 
 ### A.5 미들웨어
 
-플랫폼팀이나 Agent 개발자가 구현하고, 미들웨어 체인이 부르는 함수입니다. Agent 개발자의 미들웨어는 `use`(A.1.1)로 등록합니다.
+플랫폼팀이나 Agent 개발자가 구현하고, 미들웨어 체인이 부르는 함수입니다. Agent 개발자의 미들웨어는 `addMiddleware`(A.1.1)로 등록합니다.
 
 ```python
 # 참고: 의사코드
@@ -2751,7 +2751,7 @@ ctx = { runId, workflow, version, currentNode, session, user, team }
 | `ctx` | 호출의 배경. run 식별자, workflow 이름과 버전, 현재 노드, 세션, 사용자, 팀 | 5.4.1절 |
 | `call` | 지점마다 다르다. 그래프 지점은 입력과 세션, 노드 지점은 노드 이름과 State, 모델 호출 지점은 별칭·지시·데이터·출력 형식, 도구 호출 지점은 도구 이름·메타데이터·입력이다 | 5.4.1절 |
 | `result` | 지점마다 다르다. 그래프 지점은 실행 결과(A.8.2), 노드 지점은 변경분, 모델 호출 지점은 응답과 토큰 수, 도구 호출 지점은 도구의 출력이다 | 5.4.1절 |
-| `wf.use(middleware, at)` | Agent 개발자가 자기 workflow에 미들웨어를 등록한다(A.1.1). 등록한 순서대로 바깥 묶음과 안쪽 묶음 사이에 들어가며, workflow 버전을 따른다 | 5.4.5절, 7.6절 |
+| `wf.addMiddleware(middleware, at)` | Agent 개발자가 자기 workflow에 미들웨어를 등록한다(A.1.1). 등록한 순서대로 바깥 묶음과 안쪽 묶음 사이에 들어가며, workflow 버전을 따른다 | 5.4.5절, 7.6절 |
 | 플랫폼 필수 묶음의 등록 | API가 아니라 실행기 설정으로 등록한다. 지점마다 바깥 묶음과 안쪽 묶음의 미들웨어와 순서를 정하며, 배포하면 진행 중인 run에도 바로 적용된다 | 5.4.4절, 7.6절 |
 
 | 구분 | 규칙 | 설명하는 곳 |
@@ -2880,7 +2880,7 @@ Result = {
 | `addNode(name, fn, ...)` | 노드 이름과 **노드 함수의 등록 이름** | 노드 함수는 코드로 작성해 이름으로 등록해 두고, 설정 파일은 그 이름을 가리킨다. 함수 본문은 여전히 코드다 |
 | 에지 함수 방식의 조건부 에지 | 쓸 수 없다. **값 매핑 조건부 에지만** 쓴다 | 조건을 설정 파일에 적을 수 없으므로, 앞 노드가 판단 결과를 State 키 하나에 적고 그 값으로 분기한다(3.5.2절의 권장 방식과 같다) |
 | 노드 함수 안의 `model.call`, `tools.call`, `wait` | 노드 함수 안에 그대로 있다 | 설정 파일이 바꾸는 것은 노드 사이의 흐름뿐이다. 노드가 무엇을 하는지는 코드가 정한다 |
-| `use(middleware)` | Agent 개발자의 미들웨어는 **등록 이름**으로 가리킨다 | 미들웨어 본문도 코드다 |
+| `addMiddleware(middleware)` | Agent 개발자의 미들웨어는 **등록 이름**으로 가리킨다 | 미들웨어 본문도 코드다 |
 | `compile()` | 설정 파일을 읽는 **로더**가 명세를 만들고 같은 검증을 한다 | 검증 규칙은 같지만, 설정 파일의 문법 오류(없는 키, 잘못된 형식)를 먼저 잡는 단계가 앞에 붙는다 |
 
 3.10절의 작은 workflow를 설정 파일로 적으면 다음과 같습니다. 노드 함수(`checkOrder` 등)는 코드로 작성해 같은 이름으로 등록해 둔 것입니다.

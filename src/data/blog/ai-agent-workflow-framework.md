@@ -10,7 +10,7 @@ description: "AI Agent의 동작을 workflow로 정의하고 실행하는 프레
 
 > 이 문서는 AI Agent의 동작을 workflow로 정의하고 실행하는 프레임워크를 **만드는 쪽의 설계**를 다룹니다. 어떤 요구사항이 있는지, 그 요구사항을 만족하려면 어떤 구성 요소가 필요한지, 각 구성 요소가 어떻게 동작해야 하는지, 무엇을 고려해야 하는지를 차례로 설명합니다. 설계의 중심은 workflow를 정의하는 모델(3장)과 workflow를 실행하는 엔진(4장)입니다. 의사코드는 동작을 이해하기 위한 참고용이며, 특정 언어나 구현을 정하지 않습니다.
 
-**요약 슬라이드**: 이 문서의 내용을 71장으로 정리한 발표 자료입니다. [AI_Agent_Workflow_Framework_Summary.pptx](/files/ai-agent-workflow-framework/AI_Agent_Workflow_Framework_Summary.pptx) (PowerPoint, 3.2MB)
+**요약 슬라이드**: 이 문서의 내용을 73장으로 정리한 발표 자료입니다. [AI_Agent_Workflow_Framework_Summary.pptx](/files/ai-agent-workflow-framework/AI_Agent_Workflow_Framework_Summary.pptx) (PowerPoint, 3.2MB)
 
 ---
 
@@ -188,7 +188,7 @@ workflow 프레임워크는 이 문제를 다음과 같이 풉니다. Agent가 �
 | 묶음 | 구성 요소 | 책임 | 관련 요구사항 | 설명하는 곳 |
 |---|---|---|---|---|
 | 정의 | workflow 빌더 | 노드와 에지를 모아 workflow 명세를 만들고, 실행 전에 검사한다 | FR-01, FR-02 | 3장 |
-| | 도구 등록 | 도구 함수를 메타데이터와 함께 도구 레지스트리에 등록한다. 플랫폼팀이 검토하기 전까지는 되돌릴 수 없는 도구로 간주한다 | FR-07 | 5.2절, A.6절 |
+| | 도구 등록 | 도구 함수를 메타데이터와 함께 도구 레지스트리에 등록한다. 플랫폼팀이 검토하기 전까지는 되돌릴 수 없는 도구로 간주한다 | FR-07 | 5.2절, A.1.2절 |
 | 실행기 | 실행 루프 | 노드를 실행하고, 변경분을 State에 반영하고, 에지로 다음 노드를 정하고, 예산을 확인하고, 단계마다 체크포인트를 저장한다 | FR-03, FR-04 | 4.1절 |
 | | 응답 처리 | 사람이나 외부 시스템이 보낸 응답을 받아 응답자의 자격과 응답 형식을 확인하고, 멈춘 run을 이어 간다 | FR-05 | 4.3절 |
 | | 타임아웃 처리 | 기한이 지난 대기를 주기적으로 찾아 만료로 처리하고 run을 이어 간다. 같은 주기에 잠금이 풀린 채 실행 중으로 남은 run도 찾아 이어 간다. 프레임워크에서 스스로 동작하는 유일한 배경 작업이다 | FR-04, FR-05 | 2.3.4절, 4.3절 |
@@ -810,7 +810,7 @@ workflow 안에서 사람, 외부 시스템, 정해진 시각을 기다리는 �
 | 근거 | 응답자가 판단할 때 볼 정보 |
 | 기한 | 얼마나 기다릴지, 또는 언제까지 기다릴지. 달력 시간인지 영업시간인지 |
 
-예를 들어 환불을 고객센터 팀장에게 승인받는 대기 지점은 다음과 같이 정의합니다(부록 A.3, A.5).
+예를 들어 환불을 고객센터 팀장에게 승인받는 대기 지점은 다음과 같이 정의합니다(부록 A.2, A.8.1).
 
 ```python
 # 참고: 의사코드
@@ -2486,18 +2486,30 @@ run 색인: run마다 한 행
 
 본문에 흩어져 있는 인터페이스를 한곳에 모읍니다. 이름과 모양은 이해를 돕기 위한 의사코드이며, 특정 언어를 정하지 않습니다. 각 항목의 설계 이유는 오른쪽 열의 절에 있습니다. 이름은 다음 규칙을 따릅니다. 함수와 변수의 이름은 camelCase(`addNode`, `runId`)로, 선언과 명세와 저장되는 레코드의 키는 snake_case(`model_chooses`, `max_passes`, `run_id`)로 씁니다.
 
-| 절 | 인터페이스 | 쓰는 쪽 |
-|---|---|---|
-| A.1 | workflow 정의 API | Agent 개발자 |
-| A.2 | State 형식 | Agent 개발자 |
-| A.3 | 노드 안에서 쓰는 연산 | Agent 개발자의 노드 함수 |
-| A.4 | 실행 API | 응용 서버, 운영 도구 |
-| A.5 | 대기 요청과 응답의 형식 | 노드 함수, 응용 서버 |
-| A.6 | 도구 등록 | Agent 개발자, 플랫폼팀 |
-| A.7 | 미들웨어 | 플랫폼팀, Agent 개발자 |
-| A.8 | 저장소 인터페이스 | 실행기, 저장소 구현 |
+부록 A의 인터페이스는 성격에 따라 세 가지로 나뉩니다.
 
-### A.1 workflow 정의 API
+| 성격 | 뜻 | 절 |
+|---|---|---|
+| API | 프레임워크가 제공하고, 사용하는 쪽이 부르는 함수 | A.1 ~ A.3 |
+| 구현 인터페이스 | 사용하는 쪽이 구현하고, 프레임워크가 부르는 함수의 형태 | A.4 ~ A.6 |
+| 데이터 형식 | API와 구현 인터페이스가 주고받는 값의 모양 | A.7, A.8 |
+
+| 절 | 인터페이스 | 성격 | 사용하는 쪽 | 제공하는 쪽 |
+|---|---|---|---|---|
+| A.1 | 정의 API(workflow 빌더, 도구 등록) | API | Agent 개발자, 플랫폼팀 | 프레임워크 |
+| A.2 | 노드 안에서 쓰는 API | API | 노드 함수 | 프레임워크 |
+| A.3 | 실행 API | API | 응용 서버, 운영 도구 | 프레임워크 |
+| A.4 | 노드 함수와 에지 함수 | 구현 인터페이스 | 실행 루프 | Agent 개발자 |
+| A.5 | 미들웨어 | 구현 인터페이스 | 미들웨어 체인 | 플랫폼팀, Agent 개발자 |
+| A.6 | 저장소 인터페이스 | 구현 인터페이스 | 실행기 | 저장소 구현 |
+| A.7 | State 형식 | 데이터 형식 | 노드 함수, 실행 루프 | Agent 개발자가 선언한다 |
+| A.8 | 대기 요청과 응답, 실행 결과 | 데이터 형식 | 노드 함수, 응용 서버 | 프레임워크가 정한다 |
+
+### A.1 정의 API
+
+Agent 개발자와 플랫폼팀이 workflow와 도구를 정의할 때 부르는 API입니다. workflow 빌더와 도구 등록으로 이루어집니다(2.1절).
+
+#### A.1.1 workflow 빌더
 
 ```python
 # 참고: 의사코드
@@ -2525,7 +2537,7 @@ spec = wf.compile(version, budget = { max_steps, max_tokens, max_cost, max_durat
                                        on_exceeded: 노드 })          # 예산을 넘으면 갈 노드
 ```
 
-| 연산 | 설명 | 설명하는 곳 |
+| 함수 | 설명 | 설명하는 곳 |
 |---|---|---|
 | `addNode` | 노드와 선언을 등록한다. compile은 함수 본문을 읽지 않고 선언만 본다 | 3.4.2절 |
 | `addConditionalEdge` | 에지 함수로 다음 노드를 고르거나(갈 수 있는 노드 목록을 함께 선언), State 키의 값마다 갈 노드를 정한다(값 매핑). 모든 경우를 다루어야 한다 | 3.2절, 3.5.2절 |
@@ -2536,87 +2548,7 @@ spec = wf.compile(version, budget = { max_steps, max_tokens, max_cost, max_durat
 | `use` | Agent 개발자의 미들웨어를 지점에 더한다 | 5.4.5절 |
 | `compile` | 정적 검증을 하고 workflow 명세를 만들어 레지스트리에 저장한다. 하나라도 어기면 명세가 만들어지지 않는다. 예산의 `on_exceeded`가 없으면 예산을 넘은 run은 실패한다 | 3.8절, 3.9절 |
 
-### A.2 State 형식
-
-```python
-# 참고: 의사코드
-StateType = {
-  키: { type: text | integer | boolean | object | list | one_of(값, ...),
-        reducer: overwrite | append,     # 기본은 overwrite
-        pii: true | false,               # 기록할 때 가린다
-        max_items: 정수 }                 # 목록의 크기 상한
-}
-```
-
-- 노드 함수는 State 전체가 아니라 바뀐 키만 돌려준다. 실행 루프가 형식을 검사한 뒤 합치는 규칙으로 반영한다(3.3.2절).
-- 병렬 노드가 `overwrite` 키에 함께 쓰면 병합 충돌로 run을 멈춘다(3.3.2절).
-- 값은 직렬화할 수 있어야 한다. 큰 데이터는 외부에 두고 참조만 넣는다(3.3.4절).
-
-### A.3 노드 안에서 쓰는 연산
-
-노드 함수의 모양은 `function name(state) -> 변경분`입니다. 노드 함수는 모델과 도구를 다음 연산으로만 부릅니다(2.5절).
-
-| 연산 | 설명 | 설명하는 곳 |
-|---|---|---|
-| `model.call(model, prompt, input, output, history = null)` | 모델을 부른다. `model`은 별칭, `prompt`는 프롬프트 파일, `input`은 데이터, `output`은 출력 형식이며 필수다. 결정 노드에서는 `tools_for` 노드들의 도구 목록이 자동으로 붙는다 | 5.1절, 5.3.1절 |
-| `tools.call(tool, input, name = null)` | 도구를 부른다. `name`은 호출 이름이며, 바깥을 바꾸는 호출에는 붙인다. `uses`에 없는 도구는 거부된다 | 4.6절, 5.2절 |
-| `wait(request) -> answer` | 응답을 기다린다. 처음에는 run을 멈추고, 재개 후 다시 실행되면 받은 응답을 돌려준다. 종류는 노드의 `waits`와 같아야 하고, 병렬 노드 안에서는 쓸 수 없다 | 3.6절, 4.3.2절 |
-| `session.recent(turns)` | 세션의 최근 대화를 읽는다. `history`로 넘긴다 | 5.1.5절 |
-| `run.id`, `run.user`, `run.session`, `run.currentNode` | 실행 중인 run의 정보 | |
-
-### A.4 실행 API
-
-응용 서버와 운영 도구가 실행기에 요청하는 연산입니다.
-
-| 연산 | 설명 | 설명하는 곳 |
-|---|---|---|
-| `start(workflow, input, session, user, credentials) -> Result` | 활성 버전 가운데 하나를 골라 새 run을 시작한다 | 2.3.2절, 3.9.4절 |
-| `resume(runId, requestId, answer, responder, credentials) -> Result` | 멈춘 run에 응답을 전달하고 이어 간다. 응답자의 자격과 응답 형식을 확인한다 | 4.3.4절 |
-| `unblock(runId, operator, action = resume \| cancel)` | `blocked` run을 확인한 뒤 이어 가게 하거나 취소한다 | 7.4.2절 |
-| `cancel(runId, operator)` | run을 취소하고, 실행한 되돌릴 수 있는 호출을 역순으로 취소한다 | 7.4.2절 |
-| `rerunFrom(runId, seq, operator) -> Result` | 특정 체크포인트부터 다시 실행한다. 뒤에 성공한 되돌릴 수 없는 호출이 있으면 거부한다 | 7.4.2절 |
-| `get(runId)`, `checkpoints(runId)` | run의 마지막 상태와 체크포인트 목록을 조회한다 | 7.4.2절 |
-
-`start`, `resume`, `rerunFrom`은 같은 모양의 결과를 돌려줍니다.
-
-```python
-Result = {
-  run_id,
-  status:  done | paused | failed | blocked | cancelled,
-  state:   마지막 State(개인정보는 가린 것),
-  request: 멈춘 경우의 대기 요청(A.5),
-  error:   실패한 경우의 오류 종류와 노드
-}
-```
-
-- `credentials`는 사용자의 자격 증명이며, 실행기는 이것을 State와 체크포인트에 저장하지 않는다(7.1.3절).
-- 복구와 타임아웃 처리는 실행기가 스스로 하므로, 응용 서버가 부르지 않는다(2.3.4절, 4.3.4절).
-
-### A.5 대기 요청과 응답의 형식
-
-```python
-# 참고: 의사코드
-request = {
-  id,                                          # 실행기가 만든다
-  kind:      input | confirm | authentication | approval | callback | timer,
-  responder: { user: 세션의 사용자 } | { role: 권한 } | { system: 외부 시스템 },
-  form:      응답 형식. 확인, 인증, 승인은 { ok: boolean, ... }을 포함한다,
-  subject:   { tool, input },                  # 되돌릴 수 없는 도구 앞의 확인 노드는 반드시 적는다
-  evidence:  응답자가 판단할 때 볼 근거,
-  deadline:  { after: "2d" } | { at: 시각 }, calendar: 달력 | 영업일
-}
-
-answer = { ok, ...form의 다른 필드 }
-       | { expired: true, ok: false }          # 타임아웃 처리가 보내는 만료 응답
-```
-
-| 항목 | 규칙 | 설명하는 곳 |
-|---|---|---|
-| `deadline` | 반드시 둔다. 멈출 때 절대 시각으로 바꿔 체크포인트와 요청 색인에 적는다 | 3.6.4절, 4.3.4절 |
-| `subject` | 되돌릴 수 없는 도구를 쓰는 노드 앞의 확인 노드는 종류와 관계없이 적는다. 실행 직전에 실제 호출과 비교한다 | 5.3.3절, 5.3.4절 |
-| `ok` | 확인, 인증, 승인의 공통 필드. 승인 확인은 종류와 관계없이 이 필드를 본다 | 3.6.4절 |
-
-### A.6 도구 등록
+#### A.1.2 도구 등록
 
 ```python
 # 참고: 의사코드
@@ -2638,7 +2570,58 @@ defineToolSet(name, [도구 이름, ...], read_only = true | false)
 - 등록한 도구는 "검토 전" 상태이며, 플랫폼팀이 검토하기 전까지 `irreversible`로 간주한다(5.2.3절, 6.1.4절).
 - 입력 형식이 바뀌면 새 버전으로 등록한다. 등급, 권한, 사용 중지 같은 통제 메타데이터의 변경은 진행 중인 run에도 적용된다(7.6절).
 
-### A.7 미들웨어
+### A.2 노드 안에서 쓰는 API
+
+노드 함수가 실행 중에 부르는 API입니다. 노드 함수는 모델과 도구를 이 API로만 부릅니다(2.5절). 노드 함수 자체의 형태는 A.4에 있습니다.
+
+| 함수 | 설명 | 설명하는 곳 |
+|---|---|---|
+| `model.call(model, prompt, input, output, history = null)` | 모델을 부른다. `model`은 별칭, `prompt`는 프롬프트 파일, `input`은 데이터, `output`은 출력 형식이며 필수다. 결정 노드에서는 `tools_for` 노드들의 도구 목록이 자동으로 붙는다 | 5.1절, 5.3.1절 |
+| `tools.call(tool, input, name = null)` | 도구를 부른다. `name`은 호출 이름이며, 바깥을 바꾸는 호출에는 붙인다. `uses`에 없는 도구는 거부된다 | 4.6절, 5.2절 |
+| `wait(request) -> answer` | 대기 요청을 낸다. 응답이 없으면 노드를 끝내고 run을 멈추며, 재개 후 다시 실행되면 받은 응답을 돌려준다. 응답을 붙잡고 기다리지 않는다. 종류는 노드의 `waits`와 같아야 하고, 병렬 노드 안에서는 쓸 수 없다 | 3.6절, 4.3.2절 |
+| `session.recent(turns)` | 세션의 최근 대화를 읽는다. `history`로 넘긴다 | 5.1.5절 |
+| `run.id`, `run.user`, `run.session`, `run.currentNode` | 실행 중인 run의 정보 | |
+
+### A.3 실행 API
+
+응용 서버와 운영 도구가 실행기에 요청하는 API입니다.
+
+| 함수 | 설명 | 설명하는 곳 |
+|---|---|---|
+| `start(workflow, input, session, user, credentials) -> Result` | 활성 버전 가운데 하나를 골라 새 run을 시작한다 | 2.3.2절, 3.9.4절 |
+| `resume(runId, requestId, answer, responder, credentials) -> Result` | 멈춘 run에 응답을 전달하고 이어 간다. 응답자의 자격과 응답 형식을 확인한다 | 4.3.4절 |
+| `unblock(runId, operator, action = resume \| cancel)` | `blocked` run을 확인한 뒤 이어 가게 하거나 취소한다 | 7.4.2절 |
+| `cancel(runId, operator)` | run을 취소하고, 실행한 되돌릴 수 있는 호출을 역순으로 취소한다 | 7.4.2절 |
+| `rerunFrom(runId, seq, operator) -> Result` | 특정 체크포인트부터 다시 실행한다. 뒤에 성공한 되돌릴 수 없는 호출이 있으면 거부한다 | 7.4.2절 |
+| `get(runId)`, `checkpoints(runId)` | run의 마지막 상태와 체크포인트 목록을 조회한다 | 7.4.2절 |
+
+`start`, `resume`, `rerunFrom`은 같은 모양의 실행 결과(`Result`, A.8.2)를 돌려줍니다.
+
+- `credentials`는 사용자의 자격 증명이며, 실행기는 이것을 State와 체크포인트에 저장하지 않는다(7.1.3절).
+- 복구와 타임아웃 처리는 실행기가 스스로 하므로, 응용 서버가 부르지 않는다(2.3.4절, 4.3.4절).
+
+### A.4 노드 함수와 에지 함수
+
+Agent 개발자가 구현하고 실행 루프가 부르는 함수입니다. 노드 함수는 `addNode`로, 에지 함수는 `addConditionalEdge`로 등록합니다(A.1.1).
+
+```python
+# 참고: 의사코드
+function nodeFn(state) -> 변경분     # 바뀐 키만 돌려준다
+function edgeFn(state) -> 노드 이름  # targets에 선언한 이름 가운데 하나를 돌려준다
+```
+
+| 함수 | 규칙 | 설명하는 곳 |
+|---|---|---|
+| 노드 함수 | State 전체가 아니라 바뀐 키만 돌려준다. 실행 루프가 형식을 검사한 뒤 반영한다 | 3.3.2절 |
+| | 다음에 갈 노드를 정하지 않는다. 다음 노드는 에지가 정한다 | 3.4.2절 |
+| | 모델과 도구는 노드 안에서 쓰는 API(A.2)로만 부른다 | 2.5절 |
+| | 재개나 장애 후 복구 때 처음부터 다시 실행될 수 있다. 그래서 대기 노드에는 기다리는 일만 둔다 | 3.4.4절, 4.3.2절 |
+| 에지 함수 | 노드가 끝난 뒤 State를 보고 다음 노드의 이름을 돌려준다 | 3.5.2절 |
+| | `targets`에 선언한 이름만 돌려준다. 그 밖의 이름을 돌려주면 run이 실패한다 | 3.2절, 3.8.3절 |
+
+### A.5 미들웨어
+
+플랫폼팀이나 Agent 개발자가 구현하고, 미들웨어 체인이 부르는 함수입니다. Agent 개발자의 미들웨어는 `use`(A.1.1)로 등록합니다.
 
 ```python
 # 참고: 의사코드
@@ -2659,9 +2642,11 @@ ctx = { runId, workflow, version, currentNode, session, user, team }
 | 노드형 | 플랫폼이 compile 때 workflow에 노드로 넣는다. workflow 버전을 따른다 | 5.4.3절 |
 | 결과를 바로 돌려주는 미들웨어 | `none` 도구에만 붙인다. 안쪽 묶음을 거쳐 성공한 결과만 저장하고, 키에 사용자와 권한 범위를 넣는다 | 5.4.5절 |
 
-### A.8 저장소 인터페이스
+### A.6 저장소 인터페이스
 
-| 저장소 | 연산 | 설명하는 곳 |
+저장소 구현이 구현하고 실행기가 부르는 함수입니다.
+
+| 저장소 | 구현할 함수 | 설명하는 곳 |
 |---|---|---|
 | 체크포인트 저장소 | `save(checkpoint, lockVersion)`: 체크포인트와 색인을 한 번에 쓴다. 잠금의 주인만 쓸 수 있다 | 6.1.1절, 6.2절 |
 | | `loadLatest(runId)`, `load(runId, seq)` | 6.1.1절 |
@@ -2674,3 +2659,61 @@ ctx = { runId, workflow, version, currentNode, session, user, team }
 
 - "지금"과 "기한이 지났는가"는 저장소의 시계로 판단한다(6.2절).
 - 새 저장소 구현은 프레임워크가 제공하는 적합성 시험을 통과해야 쓸 수 있다(6.4절).
+
+### A.7 State 형식
+
+Agent 개발자가 workflow마다 선언하는 State의 형식입니다(3.3절).
+
+```python
+# 참고: 의사코드
+StateType = {
+  키: { type: text | integer | boolean | object | list | one_of(값, ...),
+        reducer: overwrite | append,     # 기본은 overwrite
+        pii: true | false,               # 기록할 때 가린다
+        max_items: 정수 }                 # 목록의 크기 상한
+}
+```
+
+- 노드 함수는 State 전체가 아니라 바뀐 키만 돌려준다. 실행 루프가 형식을 검사한 뒤 합치는 규칙으로 반영한다(3.3.2절).
+- 병렬 노드가 `overwrite` 키에 함께 쓰면 병합 충돌로 run을 멈춘다(3.3.2절).
+- 값은 직렬화할 수 있어야 한다. 큰 데이터는 외부에 두고 참조만 넣는다(3.3.4절).
+
+### A.8 대기 요청과 응답, 실행 결과
+
+API와 구현 인터페이스가 주고받는 값입니다. 대기 요청은 노드 함수가 `wait`(A.2)로 내고, 응답은 응용 서버가 `resume`(A.3)으로 보냅니다. 실행 결과는 실행 API(A.3)가 돌려줍니다.
+
+#### A.8.1 대기 요청과 응답
+
+```python
+# 참고: 의사코드
+request = {
+  id,                                          # 실행기가 만든다
+  kind:      input | confirm | authentication | approval | callback | timer,
+  responder: { user: 세션의 사용자 } | { role: 권한 } | { system: 외부 시스템 },
+  form:      응답 형식. 확인, 인증, 승인은 { ok: boolean, ... }을 포함한다,
+  subject:   { tool, input },                  # 되돌릴 수 없는 도구 앞의 확인 노드는 반드시 적는다
+  evidence:  응답자가 판단할 때 볼 근거,
+  deadline:  { after: "2d" } | { at: 시각 }, calendar: 달력 | 영업일
+}
+
+answer = { ok, ...form의 다른 필드 }
+       | { expired: true, ok: false }          # 타임아웃 처리가 보내는 만료 응답
+```
+
+| 필드 | 규칙 | 설명하는 곳 |
+|---|---|---|
+| `deadline` | 반드시 둔다. 멈출 때 절대 시각으로 바꿔 체크포인트와 요청 색인에 적는다 | 3.6.4절, 4.3.4절 |
+| `subject` | 되돌릴 수 없는 도구를 쓰는 노드 앞의 확인 노드는 종류와 관계없이 적는다. 실행 직전에 실제 호출과 비교한다 | 5.3.3절, 5.3.4절 |
+| `ok` | 확인, 인증, 승인의 공통 필드. 승인 확인은 종류와 관계없이 이 필드를 본다 | 3.6.4절 |
+
+#### A.8.2 실행 결과
+
+```python
+Result = {
+  run_id,
+  status:  done | paused | failed | blocked | cancelled,
+  state:   마지막 State(개인정보는 가린 것),
+  request: 멈춘 경우의 대기 요청(A.8.1),
+  error:   실패한 경우의 오류 종류와 노드
+}
+```

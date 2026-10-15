@@ -1349,7 +1349,34 @@ function wait(request):
 
 ![병렬 실행 예시](/images/blog/ai-agent-workflow-framework/diagrams/4.4.1-parallel-example.svg)
 
-이 흐름은 workflow 명세에 병렬 에지와 합류 에지로 적혀 있습니다. 두 에지는 같은 **병렬 묶음** 이름(`trip_search`)으로 짝지어집니다.
+정의 API로는 다음과 같이 적습니다.
+
+```python
+# 참고: 의사코드
+TripState = {
+  dest:    { type: text },
+  dates:   { type: object },
+  budget:  { type: integer },
+  flights: { type: list },   # search_flights만 쓴다
+  hotels:  { type: list }    # search_hotels만 쓴다
+}
+
+wf = Workflow(name = "trip_planner", state = TripState)
+
+wf.addNode("analyze_trip",   analyzeTrip)
+wf.addNode("search_flights", searchFlights, uses = ["flight.search"])
+wf.addNode("search_hotels",  searchHotels,  uses = ["hotel.search"])
+wf.addNode("plan_itinerary", planItinerary)
+
+wf.setStart("analyze_trip")
+wf.addParallelEdge("trip_search", from = "analyze_trip", to = ["search_flights", "search_hotels"],
+                   on_partial_failure = "fail")     # 하나라도 실패하면 전체를 실패로 본다
+wf.addJoinEdge("trip_search", from = ["search_flights", "search_hotels"], to = "plan_itinerary")
+```
+
+두 검색 노드는 서로 다른 키(`flights`, `hotels`)에만 씁니다. 같은 덮어쓰기 키에 쓰면 합류할 때 병합 충돌이 납니다(아래 규칙 표 참고).
+
+compile하면 이 정의는 workflow 명세에 병렬 에지와 합류 에지로 적힙니다. 두 에지는 같은 **병렬 묶음** 이름(`trip_search`)으로 짝지어집니다.
 
 ```yaml
 edges: [
@@ -1413,6 +1440,27 @@ edges: [
 | 대기 | 하위 run이 멈추면 상위 run도 멈추고, 대기 요청이 위로 전달된다. 응답은 상위 run으로 오고, 실행기가 아래로 전달한다. 그래서 응용 서버는 가장 위의 run만 알면 된다 |
 | 예산 | 상위의 남은 예산 안에서 실행하고, 비용은 상위에 합산한다 |
 | 실패 | 그 노드의 실패로 처리한다(4.5절) |
+
+실행 루프는 하위 workflow 노드를 다음과 같이 실행합니다. 3.7.2절 예시의 `refund` 노드(하위 workflow `order_refund`)를 떠올리면 됩니다.
+
+```python
+# 참고: 의사코드. 실행 루프가 하위 workflow 노드를 실행하는 방식
+function runSubworkflowNode(parent, node, state):
+    child_id = parent.id + "/" + node.name + "/" + parent.seq    # 식별자. 다시 실행되어도 같은 하위 run을 찾는다
+    child = runs.findOrStart(child_id, node.workflow, node.version,
+                             input  = mapInput(node.input, state),
+                             budget = parent.remainingBudget())  # 예산. 상위의 남은 예산 안에서 실행한다
+    result = child.run()                                         # 멈추거나 끝날 때까지 실행한다
+    parent.addCost(result.cost)                                  # 비용은 상위에 합산한다
+    if result.status == "paused":
+        raise Pause(result.request)                              # 대기. 하위의 대기 요청을 위로 전달하고 상위 run도 멈춘다(4.3.2절)
+    if result.status == "failed":
+        raise NodeFailed(result.error)                           # 실패. 이 노드의 실패로 처리한다(4.5절)
+    return mapOutput(node.output, result.state)                  # output에 적은 값만 상위의 변경분이 된다
+```
+
+- `order_refund` 안의 승인 노드가 멈추면 `refund` 노드도 `Pause`로 끝나고, 상위 run이 그 대기 요청을 가지고 멈춥니다. 응용 서버는 상위 run만 알면 됩니다.
+- 응답이 오면 상위 run이 `refund` 노드를 처음부터 다시 실행합니다. 이때 `findOrStart`가 같은 식별자로 기존 하위 run을 찾고, 실행기가 응답을 하위 run으로 전달하므로 하위 run은 멈춘 지점부터 이어 갑니다.
 
 ### 4.5 오류 처리
 

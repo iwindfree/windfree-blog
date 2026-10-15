@@ -810,6 +810,32 @@ workflow 안에서 사람, 외부 시스템, 정해진 시각을 기다리는 �
 | 근거 | 응답자가 판단할 때 볼 정보 |
 | 기한 | 얼마나 기다릴지, 또는 언제까지 기다릴지. 달력 시간인지 영업시간인지 |
 
+예를 들어 환불을 고객센터 팀장에게 승인받는 대기 지점은 다음과 같이 정의합니다(부록 A.3, A.5).
+
+```python
+# 참고: 의사코드
+wf.addNode("approve_refund", approveRefund, waits = "approval")   # 기다리는 종류를 선언한다
+
+function approveRefund(state):
+    answer = wait({
+        kind:      "approval",                      # waits와 같아야 한다
+        responder: { role: "cs_lead" },             # 응답자
+        form:      { ok: boolean, reason: text },   # 응답 형식
+        subject:   { tool: "payment.refund",        # 승인 대상
+                     input: { order_id: state.order.id, amount: state.refund_amount, to: "original" } },
+        evidence:  { order: state.order, message: state.user_message },  # 근거
+        deadline:  { after: "1d" } })               # 기한
+    return { approved: answer.ok }
+
+wf.addConditionalEdge("approve_refund", on = "approved", routes = {
+    true:  "execute_refund",
+    false: "handoff" })
+```
+
+- `approveRefund`가 처음 실행되면 `wait`가 run을 멈춥니다. 요청 내용은 `paused` 상태의 체크포인트에 저장되고, 서버의 메모리에는 아무것도 남지 않습니다(2.3.1절).
+- 팀장이 응답하면 응답 처리가 응답자의 자격과 응답 형식을 확인하고 run을 이어 갑니다. 이때 `approveRefund`를 처음부터 다시 실행하며, 이번에는 `wait`가 받은 응답을 돌려줍니다(4.3.2절).
+- 기한이 지나면 타임아웃 처리가 만료 응답(`ok: false`)을 보내므로, 반려와 같이 `handoff`로 갑니다. 만료를 반려와 다르게 처리하려면 응답의 `expired`를 State에 적고 에지로 나눕니다.
+
 #### 3.6.3 설계 결정과 대안
 
 | 대안 | 설명 | 택하지 않은 이유 |

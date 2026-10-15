@@ -887,6 +887,10 @@ wf.addConditionalEdge("classify", on = "intent", routes = {
 wf.addEdge("refund", "reply")
 ```
 
+![하위 workflow 예시](/images/blog/ai-agent-workflow-framework/diagrams/3.7.2-subworkflow.svg)
+
+그림에서 `refund`는 상위 workflow의 노드 하나이지만, 그 안에서는 `order_refund` 1.2.0이 별도의 run으로 실행됩니다. 상위와 하위는 `input`과 `output`에 적은 값만 주고받습니다.
+
 - `refund`는 다른 노드처럼 에지로 잇지만, 실행되면 `order_refund` 1.2.0이 상위 run에 딸린 별도의 run으로 실행됩니다(4.4.2절).
 - 하위 workflow는 `input`으로 넘긴 두 값만 받습니다. 상위의 대화 기록이나 다른 State는 볼 수 없습니다.
 - 하위 workflow가 끝나면 `output`에 적은 값만 상위 State에 반영됩니다. 하위 workflow가 승인을 기다리며 멈추면 상위 run도 함께 멈추고, 응답은 상위 run으로 보냅니다(4.4.2절).
